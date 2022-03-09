@@ -1,0 +1,117 @@
+.home-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.mat-grid-tile {
+  overflow: visible;
+}
+
+.island-grid-card ::ng-deep .mat-figure {
+  position: relative;
+  display: initial;
+}
+
+.island-card {
+  height: 14rem;
+  border: 1px solid white;
+  position: relative;
+  width: 17rem;
+  line-height: 2rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+}
+
+.island-card-header {
+  border-bottom: 1px solid white;
+  background-color: rgba(255, 255, 255, .5);
+  color: black;
+  padding: 5px 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.island-card-content {
+  padding: 1rem;
+  text-align: left;
+  color: white;
+}
+
+.island-card-img {
+  position: absolute;
+  top: 0;
+  left: 2rem;
+}
+
+.mat-button.island-card-button {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  /* background-color:red; */
+  width: 30rem;
+  height: 30rem;
+  overflow: visible;
+}
+
+.mat-button.island-card-button:hover {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+@keyframes move {
+  20%,
+  100% {
+    transform: translate(200px, 0);
+  }
+}
+
+@keyframes float {
+  0% {
+    top: 0rem;
+  }
+  20% {
+    top: 1rem;
+  }
+  100% {
+    top: 0rem;
+  }
+}
+
+.mat-button.island-card-button img {
+  width: 90%;
+  transition: width 2s;
+  animation: float 10s infinite;
+}
+
+.mat-button.island-card-button img:hover {
+  width: 100%;
+}
+
+.mat-button.island-card-button ::ng-deep .mat-button-focus-overlay {
+  background-color: transparent;
+}
+
+.top-left-card .island-card {
+  top: 0;
+  left: 0;
+}
+
+.top-right-card .island-card {
+  top: 0;
+  right: 0;
+}
+
+.bottom-left-card .island-card {
+  bottom: 0;
+  left: 0;
+}
+
+.bottom-right-card .island-card {
+  bottom: 0;
+  right: 0;
+}

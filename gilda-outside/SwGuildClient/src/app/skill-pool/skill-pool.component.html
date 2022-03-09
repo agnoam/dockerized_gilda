@@ -1,0 +1,16 @@
+<app-user-profil class="user-profil">
+</app-user-profil>
+<div class="right-side-container">
+  <app-filter></app-filter>
+  <mat-tab-group (selectedTabChange)="tabChanged($event)">
+    <mat-tab label="PROJECTS">
+      <app-projects-tab></app-projects-tab>
+    </mat-tab>
+    <mat-tab label="GIGS">
+      <app-gigs-tab></app-gigs-tab>
+    </mat-tab>
+    <mat-tab label="PEOPLE">
+      <app-people-tab></app-people-tab>
+    </mat-tab>
+  </mat-tab-group>
+</div>

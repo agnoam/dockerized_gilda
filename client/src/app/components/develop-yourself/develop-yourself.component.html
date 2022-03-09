@@ -1,0 +1,25 @@
+<div>
+  <div flex>
+    <mat-tab-group dynamicHeight=false class='tab-group' selectedIndex=1>
+      <mat-tab class="transparent" label="RECOMMEND APPLICANT">
+        <button mat-button
+                routerLink='/scoreboard'
+                (click)="setCurrRank('APPLICANT')"> APPLICANTS
+        </button>
+      </mat-tab>
+      <mat-tab class="transparent" label='CRACK A CHALLENGE'>
+        <app-challenge-card></app-challenge-card>
+      </mat-tab>
+      <mat-tab class="transparent" label="CONTRIBUTE CODE">
+        <mat-card class="card" class="transparent">
+          <h1>GITLAB</h1>
+          <p> The more projects you contribute to, the more points you gain. </p>
+          <p> The higher the quality of the project the higher score it will gain you. </p>
+          <p> The fastest way to score hight points is to contribute code to a project you are not a member of (pull
+            request).</p>
+          <img src='../../assets/images/contributecode.png'>
+        </mat-card>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

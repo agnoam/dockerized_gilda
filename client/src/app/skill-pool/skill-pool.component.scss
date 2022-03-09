@@ -1,0 +1,40 @@
+@import '../../sass/variables';
+:host {
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  .user-profil {
+    z-index: 1;
+  }
+  .right-side-container {
+    width: 1300px;
+    display: flex;
+    flex-direction: column;
+    z-index: 0;
+  }
+  ::ng-deep .mat-tab-group {
+    background-color: $opacityBG;
+    height: calc(100% - 114px);
+    ::ng-deep .mat-tab-header {
+      border: 0;
+    }
+    ::ng-deep .mat-tab-body-content {
+      overflow: hidden;
+    }
+    ::ng-deep .mat-tab-label {
+      font-size: 20px;
+      font-weight: normal;
+      &.mat-tab-label-active {
+        color: $primary; //font-size: 26px;
+        font-weight: normal;
+      }
+      &:not(.mat-tab-disabled):focus {
+        background-color: transparent;
+      }
+    }
+    .mat-ink-bar {
+      height: 0;
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "name": "tsnode",
+  "version": "3.3.0",
+  "description": "",
+  "scripts": {
+    "dev": "nodemon --exec 'ts-node --cache-directory .tscache' ./server.ts",
+    "start": "nodemon"
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "@types/body-parser": "^1.16.3",
+    "@types/chalk": "^0.4.31",
+    "@types/connect-mongodb-session": "0.0.0",
+    "@types/cors": "^2.8.3",
+    "@types/download": "^6.2.1",
+    "@types/express": "^4.0.35",
+    "@types/express-session": "^1.15.13",
+    "@types/helmet": "0.0.43",
+    "@types/ip": "0.0.30",
+    "@types/node-schedule": "^1.2.2",
+    "@types/nodemailer": "^4.3.1",
+    "@types/nodemailer-smtp-transport": "^2.7.4",
+    "body-parser": "^1.17.1",
+    "chalk": "^1.1.3",
+    "connect-mongodb-session": "^2.2.0",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "download": "^6.2.5",
+    "express": "^4.15.2",
+    "express-session": "^1.16.2",
+    "helmet": "^3.18.0",
+    "ip": "^1.1.5",
+    "log4js": "^2.5.3",
+    "moment": "^2.21.0",
+    "mongoose": "^4.13.7",
+    "node-schedule": "^1.3.0",
+    "nodemailer": "^4.4.1",
+    "nodemailer-direct-transport": "^3.3.2",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "rxjs": "^5.5.6",
+    "unique-concat": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^2.2.17",
+    "@types/mongoose": "^4.7.29",
+    "@types/node": "^7.10.14",
+    "@types/request": "^2.0.9",
+    "@types/request-promise": "^4.1.39"
+    
+    
+  }
+}

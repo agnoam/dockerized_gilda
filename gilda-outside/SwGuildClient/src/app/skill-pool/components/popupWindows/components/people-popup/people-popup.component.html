@@ -1,0 +1,24 @@
+<div class="popup">
+  <button class="close-button" (click)="closeWindow()">X</button>
+  <div class="popup-content">
+    <div *ngFor="let group of data">
+      <div>
+        {{group.title}}
+      </div>
+      <div class="my-row" style="flex-wrap: wrap; min-height: 6rem">
+        <div class="person-item my-row" *ngFor="let item of group.peopleGroup">
+          <app-person-image-for-expanding [imgWidth]="58" [imgHeight]="58" imgBorderRadius="0" [personName]="item.name" [personId]="item.gitlab_user_id"
+            [personAvatarUrl]="item.avatar_url"></app-person-image-for-expanding>
+          <div style="padding: 10px; display: flex;flex-direction: column; justify-content: space-between;">
+            <label class="g-title title2 whiteBG overflow-ellipsis">{{item.name}}</label>
+            <div class="g-title title3 whiteBG">
+              <label>{{item.contributed_projects?.length + item.badges.projects.length}} projects</label>
+              <label>_Gigs</label>
+              <label>_Gilda Profile</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

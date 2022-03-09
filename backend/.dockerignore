@@ -1,0 +1,8 @@
+_backup/*
+.vscode/*
+logs/*
+node_modules/*
+
+nodemon.json
+README.md
+Jenkinsfile

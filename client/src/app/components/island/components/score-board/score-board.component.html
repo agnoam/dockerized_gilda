@@ -1,0 +1,8 @@
+<div class="tab-content-wrapper">
+  <p-dataScroller [value]="rankUsers" [rows]="6" [inline]="true"
+                  [totalRecords]="rankUsers.length">
+    <ng-template let-user pTemplate="item">
+      <app-user-score [currUserDetails]="user"></app-user-score>
+    </ng-template>
+  </p-dataScroller>
+</div>

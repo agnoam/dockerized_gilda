@@ -1,0 +1,195 @@
+<div class="page-card-container meetup-card-container card">
+  <mat-tab-group class='tab-group' style="width: 100%;" dynamicHeight=false color='accent' [(selectedIndex)]="selectedTab">
+    <mat-tab disabled label='GUILDHALL'></mat-tab>
+    <mat-tab label='MEETUPS'>
+      <div class="my-row meetup-tab" style="height: 100%;">
+        <div class="left-side with-background-image">         
+        </div>
+        <div class="overflow-auto-scroll" style="height: 100%;">
+          <div *ngFor="let meetup of meetups; let i = index;">
+            <div class="list-header">
+              <a href="{{meetup.resources_url}}" target="_blank">{{meetup.subject}} </a>
+            </div>
+            <div class="my-row" class="past-meetup" >
+                <h3 class="meetup-description">{{meetup.description}}</h3>
+              <!-- <div> {{meetup?.description}}</div> -->
+              <!-- <div> Date: {{meetup.date | date}}</div>
+            <div> Location: {{meetup.location}}</div>                 -->
+            <img class="meetup-selfie" src="assets/images/backgrounds/MEETUP{{meetups.length-i}} SELFIE.png"/>
+           
+            </div>
+          
+           
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label='NEXT MEETUP'>
+      <div class="my-col meetup-card">
+        <div class="my-row">
+          <div class="data-container left-side" title='{{htmlToPlaintext(nextMeetup?.email)}}' style="background-size: cover; background-image: url('assets/images/backgrounds/meetup_bg_02_05.png')">
+            <!-- <label>Join our next meetup</label> -->
+            <label>Join our next meetup</label>
+            <h2 class="meetup-subject">{{nextMeetup?.subject}}</h2>
+            <label>{{meetupDate}},{{nextMeetup?.location}}</label>
+          </div>
+          <div class="my-col" style="width:100%; overflow: auto;">
+            <div class="list-header" style="background-size: contain; background-image: url('./assets/images/backgrounds/title_02_03.png');">
+              {{waitingList.length}} Waiting</div>
+            <p-dataScroller [value]="waitingList" [rows]="10" [inline]="true" [totalRecords]="waitingList.length">
+              <ng-template let-user pTemplate="item">
+                <div class="my-col meetup-user-item">
+                  <button title='View profile' [disableRipple]='true' class="island-card-button" mat-button (click)="navigate(user?.rank, user?.name)">
+                    <img src='{{user?.avatar_url}}' alt="user-avatar">
+                  </button>
+                  <label>{{user?.name}}</label>
+                  <!-- <label class="">{{user?.rank}}</label> -->
+                </div>
+              </ng-template>
+            </p-dataScroller>
+          </div>
+        </div>
+        <div class="my-row">
+          <div class="data-container left-side" style="background-size: cover;
+                     background-image: url('assets/images/backgrounds/meetup_bg_02_05.png');">
+            <label>{{nextMeetup?.description}}</label>
+            <br/>
+            <div style="text-align: right; margin: 1rem">
+              <button mat-button class="command-button" *ngIf="loggedUser && canRegister" (click)="register()">REGISTER</button>
+              <button mat-button class="command-button" *ngIf="loggedUser && !canRegister" (click)="unregister()">UNREGISTER</button>
+            </div>
+          </div>
+          <div class="my-col" style="width:100%; overflow: auto;">
+            <div class="list-header" style="background-size: contain; background-image: url('./assets/images/backgrounds/title_03_03.png');">
+              {{attendingList.length}} Attending</div>
+            <p-dataScroller [value]="attendingList" [rows]="10" [inline]="true" [totalRecords]="attendingList.length">
+              <ng-template let-user pTemplate="item">
+                <div class="my-col meetup-user-item">
+                  <button title='View profile' [disableRipple]='true' class="island-card-button" mat-button (click)="navigate(user?.rank, user?.name)">
+                    <img src='{{user?.avatar_url}}' alt="user-avatar">
+                  </button>
+                  <label>{{user?.name}}</label>
+                  <!-- <label >{{user?.rank}}</label> -->
+                </div>
+              </ng-template>
+            </p-dataScroller>
+          </div>
+        </div>
+        <div>
+          <img width="100%" src="assets/images/backgrounds/meetup_Banner_03.png" />
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label='ABOUT'>
+      <div class="tab-content-wrapper about-card">
+        <h2>WHAT IS A GUILD?</h2>
+        <p>
+          A guild is an association of artisans or merchants who oversee the practice of their craft. The earliest types of guild were
+          formed as confraternities of tradesmen. They were organized in a manner something between a professional association,
+          trade union, a cartel, and a secret society. They often depended on grants of letters patent by a monarch or other
+          authority to enforce the flow of trade to their self-employed members, and to retain ownership of tools and the
+          supply of materials. A lasting legacy of traditional guilds are the guildhalls constructed and used as meeting
+          places.
+        </p>
+        <h2>WHAT IS THE GILDA?</h2>
+        <p>
+          The GILDA is a modern take on medieval guilds and acts as a professional association of software developers. In order to
+          progress in their professional rank, guild members must earn professional points by cracking a SW related challenges,
+          contributing code to the Inner Source repository and recommending applicants.
+        </p>
+        <h2>MEETUP MONDAY</h2>
+        <p>
+          The guild will hold professional meetups from time to time introducing cutting edge technological trends. Only guild members
+          may enter the guildhalls during Guild meetups!
+        </p>
+      </div>
+
+    </mat-tab>
+    <mat-tab label='CREDITS'>
+      <div class="my-row full-height credit-card">
+        <div class="left-side with-background-image" style="padding: 2rem 1rem;">
+          <p>Many people took part in this special project. We would like to simply say
+            <label class="bold">THANK YOU</label>
+          </p>
+        </div>
+        <div class="credits-container full-width" style="text-align: center;">
+          <marquee onmouseenter="this.stop();" onmouseleave="this.start();" direction="up" class="full-height full-width" scrollamount='1'
+            scrolldelay='15' truespeed>
+            <img src="../../../assets/images/GildaLogo_White_02.png" />
+            <div class="my-col credit-item" *ngFor="let credit of credits">
+              <img src="../../../assets/images/pets/{{credit.image}}.svg" />
+              <label class="credit-name">{{credit.name}}</label>
+              <div class="my-row category-people">
+                <label style="margin-right: .5rem;">{{credit.peopleList.join(', ')}}</label>
+              </div>
+            </div>
+          </marquee>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label='MONSTER'>
+
+      <div class="my-row full-height monster-card">
+        <div class="left-side with-background-image" style="padding: 2rem 1rem; background-color: #2583c5">
+          <div style="bottom:0; position:absolute;">
+            <h4>WIN</h4>
+            <h2>YOUR OWN</h2>
+            <h4>MONSTER</h4>
+          </div>
+        </div>
+
+        <div class="full-width" style="text-align: center;">
+          <div class="my-row">
+            <div>
+                  <div style="text-align: center; padding-left:5rem; padding-top: 1rem; padding-right: 5rem;">
+                      <div *ngFor="let criterion of monster?.monster_adoption_criteria" style="width:35rem" title={{criterion.tooltip}}>
+                  <p>{{criterion.completion}}/{{criterion.count}} {{criterion.action}}</p>
+                  <mat-progress-bar bufferValue="50" color="{{criterion.completion < criterion.count? 'warn' : 'accent'}}" mode="{{criterion.completion < criterion.count? 'buffer' : 'determinate'}}"
+                    value="{{((criterion.completion/criterion.count)*100 < 100) ? (criterion.completion/criterion.count)*100 : 100  }}"></mat-progress-bar>
+                </div>
+                <div class="mat-button-wrapper" style="text-align: center; padding-top: 2rem; ">
+                  <button *ngIf="monster" [disabled]='!fit4Adoption' mat-button class="command-button" (click)="apply4Adoption()">APPLY 4 ADOPTION</button>
+                </div>
+              </div>
+            </div>
+            <div class="monster-container">
+
+              <img *ngIf="monster" alt="monster" style="height :28rem;" src="../../../assets/images/pets/{{monster?.rank}}_{{monster?.monster_index}}.svg"
+                (click)="displayMonsterCard(monster)">
+              <h1>{{monster?.name || "No Monster for You!"}}</h1>
+            </div>
+
+          </div>
+          <div class="my-row">
+
+            <div class="my-col" style="width:95rem; overflow: auto;">
+              
+              <div class="list-header" style="background-size: contain; text-align: left;
+                    background-image: url('./assets/images/backgrounds/title_02_03.png');"> {{potential_parents.length}} Potential Parents</div>
+
+              <p-dataScroller [value]="potential_parents" [rows]="10" [inline]="true" [totalRecords]="potential_parents.length">
+                <ng-template let-user pTemplate="item">
+                  <div class="my-col meetup-user-item">
+                    <button title='View profile' [disableRipple]='true' class="island-card-button" mat-button (click)="navigate(user?.rank, user?.name)">
+                      <img src='{{user?.avatar_url}}' alt="user-avatar">
+                    </button>
+                    <label>{{user?.name}}</label>
+                    <!-- <label >{{user?.rank}}</label> -->
+                  </div>
+                </ng-template>
+              </p-dataScroller>
+              <div class="my-row monster-title">
+                  THIS MONSTER CAN BE YOURS!
+                </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </mat-tab>
+  </mat-tab-group>
+  <div class="island-img">
+    <img src='../../assets/images/islands/GUILDHALL-island.svg'>
+  </div>
+</div>

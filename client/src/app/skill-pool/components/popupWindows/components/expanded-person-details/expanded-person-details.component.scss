@@ -1,0 +1,43 @@
+@import '../../../../skill-pool';
+@import '../../../../../../sass/variables';
+.white-header {
+  label {
+    margin-right: 10px;
+  }
+}
+
+.labels-container {
+  border-bottom: 1px solid $gray;
+  .part {
+    width: 50%;
+    padding: 10px;
+    &:first-of-type {
+      border-right: 1px solid $gray;
+    }
+  }
+  .labels-row{
+    flex-wrap: wrap;
+    height: auto;
+  }
+}
+
+.bio-text{
+  white-space: pre-line;
+  max-width: 80%;
+}
+.popupScrollBarNone{
+  -ms-overflow-style: none;
+  overflow: auto;
+}
+
+.mini-pet {
+  max-height: 3rem;
+  max-width: 3rem;
+}
+
+
+.pets {
+  border-bottom : 1px solid white;
+  min-height: 3.5rem;
+  background-color: rgba(0, 0, 0, 1);
+}

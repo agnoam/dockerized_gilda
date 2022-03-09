@@ -1,0 +1,45 @@
+<button mat-button *ngFor="let label of labels let i=index" 
+[ngClass]="{
+      'programming': label.description=='Programming Language' ,
+      'knowledge': label.description=='Knowledge Domain' }" 
+      class="g-chip programming" 
+      [style.height.px]="(label.count/labels_max_count) * 35"
+      [style.font-size.rem]="1 +((label.count/labels_max_count) * 1)"
+      (click)="addFilterLabel(label.name)">
+  {{label.name}}</button>
+<div class="my-row" style="align-items: flex-end;">
+  <!-- https://ng-select.github.io/ng-select#/data-sources -->
+  <ng-select [items]="items$ | async" [(ngModel)]="selectedItems" [multiple]="true" style="width: 100%;" (add)="onAdd($event)"
+    (input)="onSearchChange($event.target.value)" [closeOnSelect]="true" (change)="onChange($event)" (close)="onClose()" [searchFn]="customSearchFn"
+    [virtualScroll]='true' [addTag]='true' placeholder="@user, %language, ~tag or free text"  [loading]="!loadingFinished" [selectOnTab]="true" [hideSelected]="true" groupBy="category">
+    <ng-template ng-loadingspinner-tmp>
+      <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </ng-template>
+    <ng-template ng-label-tmp let-item="item" let-clear="clear">
+      <ng-container>
+        <i class="fa fa-{{item.icon}}"></i>
+        <img *ngIf="item.img" src="{{item.img}}" style="position:relative;" />
+        <label> {{item.label}} </label>
+        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+      </ng-container>
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+      <ng-container *ngIf="item.img">
+        <div class="my-row" style="align-items: center;">
+          <img src="{{item.img}}" />
+          <label>{{item.label}}</label>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!item.img">
+        <span class="g-chip" [ngClass]="{programming : item.field =='lang_name[]', knowledge : item.field =='tag_name[]'}">
+          {{item.label}}
+        </span>
+      </ng-container>
+    </ng-template>
+  </ng-select>
+  <button mat-icon-button class="search-button" (click)="search()" >
+    <mat-icon>
+      search
+    </mat-icon>
+  </button>
+</div>

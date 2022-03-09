@@ -1,0 +1,165 @@
+@import '../../../skill-pool';
+@import '../../../../../sass/variables';
+$imgWidth:90px;
+.project-item {
+  button.white-header {
+    height: 94px;
+  }
+  width: 395px;
+  .wrapper-img {
+    min-width: $imgWidth;
+    width: $imgWidth;
+    height: $imgWidth;
+  }
+  .project-details {
+    width: calc(100% - #{$imgWidth});
+  }
+  .description-paragraph {
+    max-height: 50px;
+    overflow: hidden;
+    text-align: start;
+    line-height: 16px;
+  } //   .block-with-text {  
+  //     position: relative;
+  //     line-height: 1.2em;   
+  //   } 
+  // .block-with-text:before {
+  //   content: '...';
+  //   position: absolute;
+  //   right: 0;
+  //   bottom: 0;
+  //   background-color: white;
+  //   padding-left: 3px;
+  // }
+  .details-container {
+    background-color: black;
+    border: 1px solid white;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+    justify-content: space-between;
+  }
+
+  .fa-bounce {
+    display: inline-block;
+    position: relative;
+    -moz-animation: bounce 1s infinite linear;
+    -o-animation: bounce 1s infinite linear;
+    -webkit-animation: bounce 1s infinite linear;
+    animation: bounce 1s infinite linear;
+}
+@-webkit-keyframes bounce {
+    0% { top: 0; }
+    50% { top: -0.2em; }
+    70% { top: -0.3em; }
+    100% { top: 0; }
+}
+@-moz-keyframes bounce {
+    0% { top: 0; }
+    50% { top: -0.2em; }
+    70% { top: -0.3em; }
+    100% { top: 0; }
+}
+@-o-keyframes bounce {
+    0% { top: 0; }
+    50% { top: -0.2em; }
+    70% { top: -0.3em; }
+    100% { top: 0; }
+}
+@-ms-keyframes bounce {
+    0% { top: 0; }
+    50% { top: -0.2em; }
+    70% { top: -0.3em; }
+    100% { top: 0; }
+}
+@keyframes bounce {
+    0% { top: 0; }
+    50% { top: -0.2em; }
+    70% { top: -0.3em; }
+    100% { top: 0; }
+}
+ 
+.fa-fast-pulse {
+	display: inline-block;
+	-moz-animation: pulse 2s infinite linear;
+	-o-animation: pulse 2s infinite linear;
+	-webkit-animation: pulse 2s infinite linear;
+	animation: pulse 2s infinite linear;
+}
+
+
+.fa-pulse {
+	display: inline-block;
+	-moz-animation: pulse 4s infinite linear;
+	-o-animation: pulse 4s infinite linear;
+	-webkit-animation: pulse 4s infinite linear;
+	animation: pulse 4s infinite linear;
+}
+@-webkit-keyframes pulse {
+  0% {  font-size: 120%; left:0.3 rem}
+  10% {  font-size: 110%; left:0.15 rem}
+  20% {  font-size: 100%; left:0 rem }	
+  30% { font-size: 105%; left:0.1 rem  }
+  40% { font-size: 110%; left:0.2 rem  }
+  50% { font-size: 105%; left:0.1 rem  }
+  60% {  font-size: 100%; left: 0 rem  }	
+  70% {  font-size: 105%; left: 0.1 rem  }	
+  80% {  font-size: 110%; left:0.2 rem }
+  90% {  font-size: 115%; left:0.25 rem }
+  100% {  font-size: 120% ; left:0.3 rem }
+}
+@-moz-keyframes pulse {
+  0% {  font-size: 120%; left:0.3 rem}
+  10% {  font-size: 110%; left:0.15 rem}
+  20% {  font-size: 100%; left:0 rem }	
+  30% { font-size: 105%; left:0.1 rem  }
+  40% { font-size: 110%; left:0.2 rem  }
+  50% { font-size: 105%; left:0.1 rem  }
+  60% {  font-size: 100%; left: 0 rem  }	
+  70% {  font-size: 105%; left: 0.1 rem  }	
+  80% {  font-size: 110%; left:0.2 rem }
+  90% {  font-size: 115%; left:0.25 rem }
+  100% {  font-size: 120% ; left:0.3 rem }
+}
+@-o-keyframes pulse {
+  0% {  font-size: 120%; left:0.3 rem}
+  10% {  font-size: 110%; left:0.15 rem}
+  20% {  font-size: 100%; left:0 rem }	
+  30% { font-size: 105%; left:0.1 rem  }
+  40% { font-size: 110%; left:0.2 rem  }
+  50% { font-size: 105%; left:0.1 rem  }
+  60% {  font-size: 100%; left: 0 rem  }	
+  70% {  font-size: 105%; left: 0.1 rem  }	
+  80% {  font-size: 110%; left:0.2 rem }
+  90% {  font-size: 115%; left:0.25 rem }
+  100% {  font-size: 120% ; left:0.3 rem }
+}
+@-ms-keyframes pulse {
+  0% {  font-size: 120%; left:0.3 rem}
+  10% {  font-size: 110%; left:0.15 rem}
+  20% {  font-size: 100%; left:0 rem }	
+  30% { font-size: 105%; left:0.1 rem  }
+  40% { font-size: 110%; left:0.2 rem  }
+  50% { font-size: 105%; left:0.1 rem  }
+  60% {  font-size: 100%; left: 0 rem  }	
+  70% {  font-size: 105%; left: 0.1 rem  }	
+  80% {  font-size: 110%; left:0.2 rem }
+  90% {  font-size: 115%; left:0.25 rem }
+  100% {  font-size: 120% ; left:0.3 rem }
+}
+@keyframes pulse {
+  0% {  font-size: 120%; left:0.3 rem}
+  10% {  font-size: 110%; left:0.15 rem}
+  20% {  font-size: 100%; left:0 rem }	
+  30% { font-size: 105%; left:0.1 rem  }
+  40% { font-size: 110%; left:0.2 rem  }
+  50% { font-size: 105%; left:0.1 rem  }
+  60% {  font-size: 100%; left: 0 rem  }	
+  70% {  font-size: 105%; left: 0.1 rem  }	
+  80% {  font-size: 110%; left:0.2 rem }
+  90% {  font-size: 115%; left:0.25 rem }
+  100% {  font-size: 120% ; left:0.3 rem }
+}
+
+}

@@ -1,0 +1,64 @@
+@Library(value="global-lib@master", changelog=false)_
+
+node('gilda-stage') {
+stage('Build') {
+    
+    
+        git url: '[path]/SwGuildClient.git', branch: 'master'
+    
+        runNpmBuild (repository: 'npm',
+	                projName: "SwGuildClient",
+	                buildNum: "${BUILD_NUMBER}")
+	                
+        bat 'if exist dist.prod  (rmdir /S /Q dist.prod)'
+        bat 'if exist dist.stage (rmdir /S /Q dist.stage)'
+    
+        bat 'ng build'
+        stash name: 'prod', includes: 'dist/**'
+        bat 'ren dist dist.prod'
+        archiveArtifacts artifacts: 'dist.prod/**'
+
+        bat 'xcopy /Y src\\environments\\environment.stage.ts src\\environments\\environment.ts'
+        bat 'ng build'
+        stash name: 'stage', includes: 'dist/**'
+        bat 'ren dist dist.stage'
+        archiveArtifacts artifacts: 'dist.stage/**'
+        
+        npmPublishBuild (projName: "SwGuildClient",
+        	             buildNum: "${BUILD_NUMBER}")
+    
+}
+
+stage('Deploy to Staging') {
+    
+        bat 'xcopy /E /H /R /Y dist.stage C:\\inetpub\\wwwroot'
+        bat 'if exist F:\\GildaSrv\\src\\app\\dist  (del /S /Q F:\\GildaSrv\\src\\app\\dist\\*.*)'
+        bat 'if not exist F:\\GildaSrv\\src\\app\\dist  (mkdir F:\\GildaSrv\\src\\app\\dist)'
+        bat 'xcopy /E /H /R /Y dist.stage F:\\GildaSrv\\src\\app\\dist'
+        notify('SUCCESS-Staging')
+    
+}
+
+stage('Deploy to Production Approval'){
+    input "Deploy to production?"
+}
+stage('Deploy to Production (1/2)'){
+    node('gilda-prod') {
+        bat 'if exist C:\\GildaSrv\\src\\app\\dist  (del /S /Q C:\\GildaSrv\\src\\app\\dist\\*.*)'
+        bat 'if not exist C:\\GildaSrv\\src\\app\\dist  (mkdir C:\\GildaSrv\\src\\app\\dist)'
+    }
+}
+stage('Deploy to Production (2/2)'){
+        bat 'xcopy /E /H /R /Y dist.prod \\\\gilda\\c$\\inetpub\\wwwroot'
+        bat 'xcopy /E /H /R /Y dist.prod \\\\gilda\\c$\\GildaSrv\\src\\app\\dist'
+        notify('SUCCESS-Production')
+}    
+}
+def notify(status){
+    emailext (
+      to: "",
+      subject: "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+      body: """<p>${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+        <p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
+    )
+}

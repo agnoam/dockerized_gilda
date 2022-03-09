@@ -1,0 +1,38 @@
+
+
+
+
+.monster-card {
+  background-image: url('../../../../../assets/images/backgrounds/monster_popup_BG.png');
+  background-size:cover;
+  padding:0px;
+  
+  .column {
+    border: solid white 1px;
+    padding: 1rem;
+  }
+
+  .right {
+    width: 25rem;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .left {
+    width: 25rem;
+    background-color: black;
+    opacity: 0.8;
+  }
+  .title {
+    font-size:1.8rem;
+    padding-bottom: 2rem;
+  }
+  .description {
+    font-size:1.4rem;
+    padding-bottom: 2rem;
+  }
+  
+  img {
+    width:16rem;
+  }  
+}

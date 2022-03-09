@@ -1,0 +1,64 @@
+@import '../../skill-pool';
+@import '../../../../sass/variables';
+@import '../../../../sass/mixins';
+$padding:20px;
+:host {
+  display: inline-block;
+  width: 400px;
+  height: 100%;
+  margin-right: 2px;
+}
+
+.wrapper {
+  height: 100%; // display: flex;
+  // flex-direction: column;
+  // -ms-flex-direction: column;  
+  // background-color: $opacityBG;
+}
+
+.user-profil {
+  background-color: $primary;
+  padding: $padding;
+  min-height: 180px;
+  .profil-name {
+    margin-top: $padding;
+  }
+}
+
+.labels-container {
+  background-color: $opacityBG;
+  padding: 10px $padding;
+  margin-bottom: 2px;
+  min-height: 300px;
+}
+
+.editBtn#top~p-overlayPanel ::ng-deep .ui-overlaypanel {
+  margin-top: -36px;
+  margin-left: 88px;
+}
+
+.editBtn#bottom~p-overlayPanel ::ng-deep .ui-overlaypanel {
+  margin-top: 10px;
+  margin-left: 88px;
+}
+
+.gigs-container {
+  background-color: $opacityBG;
+  height: calc(100% - 482px);
+  .gigs-wrapper {
+    height: calc(100% - 30px);
+  }
+  .g-title {
+    padding: 5px $padding;
+  }
+  &>.g-title {
+    padding: 10px $padding;
+  }
+  .gig-item {
+    width: 100%;
+    background-color: black;
+    margin-bottom: 2px;
+    padding: 5px;
+    align-items: center;
+  }
+}

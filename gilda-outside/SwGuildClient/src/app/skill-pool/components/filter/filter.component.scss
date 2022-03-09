@@ -1,0 +1,169 @@
+@import '../../../../sass/variables';
+@import '../../../../sass/mixins';
+@import '../../skill-pool';
+:host {
+  background-color: black;
+  padding: 15px 30px 20px;
+  ::ng-deep .ng-select {
+    padding-bottom: 0;
+    .ng-select-container {
+      border: 0;
+      border-radius: 0;
+      border-bottom: 1px solid $gray;
+      background-color: black;
+      color: $lightBlue;
+      .ng-input>input {
+        color: white;
+      }
+    }
+    &.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+      border: 1px solid $gray;
+      background-color: black;
+      border-radius: 0;
+      align-items: center;
+      display: flex;
+      height: 24px;
+      padding: 0;
+      .ng-value-icon {
+        color: $gray;
+        border-left: 1px solid $gray;
+        padding: 0 5px;
+        margin-left: 3px;
+        &:hover {
+          color: white;
+          background-color: transparent;
+        }
+      }
+      .fa {
+        margin: 5px;
+      }
+      label {
+        margin-right: 5px;
+      }
+      img {
+        width: 24px;
+        height: 24px;
+        margin-right: 5px;
+      }
+    }
+    .ng-select-container .ng-value-container .ng-placeholder{
+      color: $lightBlue;
+    }
+    &.ng-select-focused .ng-select-container .ng-value-container .ng-placeholder {
+      color: $lightBlue;
+    }
+    ::ng-deep .ng-dropdown-panel {
+      // width: auto;
+      min-width: 130px;
+      &.ng-select-bottom {
+        top: auto;
+      }
+      .ng-dropdown-panel-items {
+        .ng-option {
+          border-bottom: 1px solid white;
+          background-color: black;
+          color: white;
+          &.ng-option-selected {
+            border-bottom: 1px solid white;
+            background-color: black;
+            color: white;
+          }
+          &.ng-option-marked {
+            background-color: rgba(0, 0, 0, .8);
+          }
+          img {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin-right: 10px;
+          }
+        }
+        &.scroll-host {
+          @include overflow-auto-scroll;
+        }
+      }
+    }
+  }
+}
+
+.search-button {
+  border: 1px solid $primary;
+  border-radius: 5px;
+  color: $primary;
+  background-color: transparent;
+  margin-left: 10px;
+  height: 30px;
+  line-height: 29px;
+  width: 30px;
+}
+
+.fa-code {
+  color: $aqua;
+}
+
+.fa-tag {
+  color: $pink;
+}
+
+.fa-circle {
+  color: black;
+}
+
+
+  .lds-ellipsis {
+      display: inline-block;
+      position: relative;
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+  }
+  .lds-ellipsis div {
+      position: absolute;
+      top: 14px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #c2c2c2;
+      animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  .lds-ellipsis div:nth-child(1) {
+      left: -9px;
+      animation: lds-ellipsis1 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(2) {
+      left: -10px;
+      animation: lds-ellipsis2 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(3) {
+      left: 2px;
+      animation: lds-ellipsis2 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(4) {
+      left: 24px;
+      animation: lds-ellipsis3 0.6s infinite;
+  }
+  @keyframes lds-ellipsis1 {
+      0% {
+          transform: scale(0);
+      }
+      100% {
+          transform: scale(1);
+      }
+  }
+  @keyframes lds-ellipsis3 {
+      0% {
+          transform: scale(1);
+      }
+      100% {
+          transform: scale(0);
+      }
+  }
+  @keyframes lds-ellipsis2 {
+      0% {
+          transform: translate(0, 0);
+      }
+      100% {
+          transform: translate(19px, 0);
+      }
+  }
+  

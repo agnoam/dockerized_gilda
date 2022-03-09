@@ -1,0 +1,7 @@
+<p-dropdown class="dropdown-sort-data" [options]="sortableOption" [(ngModel)]="selectedSortableOption" (onChange)="sortList()"
+  placeholder="Sort by" [showClear]="true"></p-dropdown>
+<p-dataScroller [value]="projects" [rows]="18" [inline]="true">
+  <ng-template let-project pTemplate="item">
+    <app-project-item [projectData]="project"></app-project-item>
+  </ng-template>
+</p-dataScroller>

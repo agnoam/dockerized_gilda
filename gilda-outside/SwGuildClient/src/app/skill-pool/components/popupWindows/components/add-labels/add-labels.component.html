@@ -1,0 +1,14 @@
+<div class="my-row">
+  <input class="g-input" type="text" placeholder="Type label name" [(ngModel)]="searchValue" style="width: 100%;" autofocus
+  />
+  <i class="fa fa-search"></i>
+</div>
+<div class="label-container overflow-auto-scroll">
+  <button class="g-chip" mat-button *ngFor="let item of filteredLables" [ngClass]="{'available':checkIsAvailables(item),
+   'programming': item.description=='Programming Language', 'non-available': true,
+        'knowledge': item.description=='Knowledge Domain' }" (click)="toggleLable(item);">{{item.name}}</button>
+</div>
+<div class="my-row" style="justify-content: space-between;">
+  <button class="g-button command-button" (click)="cancelSelection()">CANCEL</button>
+  <button class="g-button command-button" (click)="doneSelection()">DONE</button>
+</div>

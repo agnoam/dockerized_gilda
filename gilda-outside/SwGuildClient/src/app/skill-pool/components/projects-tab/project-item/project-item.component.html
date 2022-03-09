@@ -1,0 +1,64 @@
+<div class="project-item" *ngIf="projectData">
+  <button class="my-row white-header" (click)="openDialog($event)">
+    <div class="wrapper-img">
+        <img [src]="projectData.avatar_url!= null ? projectData.avatar_url : 'assets/images/projectsAvatar/MaskGroup'+projectData.project_id%6+'.svg'"
+        [attr.title]="projectData.avatar_url == null ? 'add img to project':''"/>
+    </div>
+    <div class="project-details" style="padding: 5px 10px;">
+      <div class="my-row" style="justify-content: space-between; margin-bottom: 5px;">
+        <label class="g-title title2 whiteBG overflow-ellipsis">{{projectData.name}}</label>
+        <a target='_blank' title="project on Gitlab" href="{{projectData.http_url_to_repo}}">
+            <i class="fab fa-gitlab g-title whiteBG"></i>        
+          </a>
+        <!-- <label class="g-title title3 whiteBG">Last Update: {{projectData.last_activity_at | date: 'd.M.y'}}</label> -->
+      </div>
+      <div class="g-title title3 whiteBG description-paragraph">{{projectData.description}}</div>
+    </div>
+  </button>
+  <div class="details-container">
+    <div>
+      <div class="my-row" style="flex-wrap: wrap; height: 34px; overflow: hidden;">   
+      
+        <span *ngFor="let label of objectKeys(projectData.languages)" class="g-chip programming">
+          {{label}}
+        </span>
+     
+      </div>
+      <div class="my-row" style="flex-wrap: wrap; height: 68px; overflow: hidden;">
+        <span *ngFor="let label of projectData.tag_list" class="g-chip knowledge">
+          {{label}}</span>
+      </div>
+    </div>
+    <div class="my-row" style="justify-content: space-between; align-items: center; min-height:2rem;">
+        <label   title="Heartbeat" class="g-title title2 whiteBG" style="min-width:6rem; " >{{projectData.heartbeat }}
+            <!-- <label [style.font-size]="projectData.heartbeat+70+'%'">         -->
+                <label [style.opacity]="0.25+ projectData.heartbeat/75" >     
+                <i *ngIf="projectData.heartbeat>=50" class="fa fa-heartbeat fa-fast-pulse" style="color:hsl(300, 100%, 50%)" > </i>      
+                <i *ngIf="projectData.heartbeat>0 && projectData.heartbeat < 50 " class="fa fa-heartbeat fa-fast-pulse" style="color:hsl(300, 50%, 50%)" > </i>  
+                <i *ngIf="projectData.heartbeat==0" class="fa fa-heartbeat" style="color:hsl(300, 0%, 50%)"> </i>  
+                </label> 
+                    
+        </label>
+      <label title="Developers " class="g-title title2 whiteBG">{{projectData.contributors?.length + projectData.owners?.length}} 
+          <i class="fa fa-user"></i>
+      </label>
+
+      <!-- ADD Download statistics -->
+      <!-- <label class="g-title title2 whiteBG">{{projectData.statistics?.commit_count}} 
+          <i class="fa fa-code-commit"></i>
+      </label> -->
+      <label title="Clones & Downloads" class="g-title title2 whiteBG">{{calcClones()}}
+        <i class="fa fa-download"></i>
+      </label>
+      <label title="Stars" class="g-title title2 whiteBG">{{projectData.star_count}}
+          <i class="fa fa-star"></i>
+        </label>
+      <label title="Last Update" class="g-title title whiteBG">          
+        {{projectData.last_activity_at | date: 'd.M.y'}}
+        <i class="fa fa-calendar"></i>
+      </label>
+     
+
+    </div>
+  </div>
+</div>

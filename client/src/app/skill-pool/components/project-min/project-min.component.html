@@ -1,0 +1,11 @@
+<button class="project-item my-row" (click)="openExpandedProject()" [disabled]="!isOpenExpandedWindow">
+  <div class="wrapper-img">
+    <img [src]="projectData.avatar_url!= null ? projectData.avatar_url : 'assets/images/projectsAvatar/MaskGroup'+projectData.project_id%6+'.svg'"
+      [attr.title]="projectData.avatar_url == null ? 'add img to project':''" />
+  </div>
+  <div class="project-details">
+    <div class="g-title title2 whiteBG overflow-ellipsis">{{projectData.name}}</div>
+    <!-- <label class="g-title title3 whiteBG">_active</label> -->
+    <!-- <label class="g-title title3 whiteBG">{{projectData.gigs?.length}} gigs</label> -->
+  </div>
+</button>

@@ -1,0 +1,87 @@
+<div>
+  <app-user-score [currUserDetails]="currUserDetails" [isUserProfil]="true"></app-user-score>
+</div>
+<div class="my-row">
+  <div class="my-col gains-points-container">
+    <div class="develop-yourself">
+        <h1>DEVELOP YOURSELF</h1>
+    </div>
+
+
+        <mat-panel-title style="color:white; font-size:2rem; text-align:center;">
+          <h4>
+          CONTRIBUTE CODE
+        </h4>
+        </mat-panel-title>
+
+    <mat-accordion multi="true" expanded="false" >
+        <mat-expansion-panel class="gains-point-item">
+          <mat-expansion-panel-header>
+            <mat-panel-title style="color:white;">
+              Read more
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="gains-point-item">
+
+              <table>
+                <tr>
+                  <th style="text-align: left">Action</th>
+                  <th style="text-align: right">Points</th>
+                </tr>
+              <tr *ngFor="let price of scoreInfo" title="{{price.tooltip}}">
+                  <td title="{{price.tooltip}}" style="min-width:10.5rem">
+                      {{price.action}}
+                    </td>
+                <td title="{{price.tooltip}}" style="min-width:7rem; text-align: right">
+                   {{price.price}}
+                </td>
+
+              </tr>
+            </table>
+            <br/>
+              <a mat-button class="command-button" target='_blank' href="http://gitlab/">GITLAB</a>
+            </div>
+
+        </mat-expansion-panel>
+        <mat-expansion-panel disabled='true' hideToggle='true' expanded="true" class="gains-point-item">
+          <mat-expansion-panel-header>
+            <mat-panel-title style="color:white; font-size:2rem">
+              <h3 style="text-align: center">
+              RECOMMEND APPLICANTS
+            </h3>
+            </mat-panel-title>
+
+          </mat-expansion-panel-header>
+            Win 50 points
+              <button
+              [disabled]="!(this.currUserDetails&& this.currUserDetails.rank !='APPLICANT')"
+              mat-button
+              class="command-button"
+              (click)="openApplicantsScorBoard()"
+              >
+              APPLICANTS
+              </button>
+
+        </mat-expansion-panel>
+        <!-- <mat-expansion-panel disabled='true' hideToggle='true' expanded="true" class="gains-point-item">
+            <mat-expansion-panel-header>
+                <mat-panel-title style="color:white; font-size:2rem">
+                 Crack Challenges
+                </mat-panel-title>
+                <mat-panel-description>
+
+                </mat-panel-description>
+              </mat-expansion-panel-header> -->
+        <!-- <div class="gains-point-item">
+
+            Crack the weekly challenge -->
+            <!-- <button mat-button class="command-button">relevent link</button> -->
+          <!-- </div> -->
+        <!-- </mat-expansion-panel> -->
+      </mat-accordion>
+
+  </div>
+  <div class=" my-row challenge-container">
+    <app-challenge-card></app-challenge-card>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div *ngIf="personData" class="expanded-popup popupScrollBarNone">
+  <div class="my-row white-header">
+    <button class="close-button" (click)="closeWindow()">X</button>
+    <div class="wrapper-img">
+      <img src="{{personData.avatar_url}}" />
+    </div>
+    <div class="my-col" style="padding: 10px; justify-content: space-between;">
+      <label class="g-title title2 whiteBG overflow-ellipsis">{{personData.rank}} {{personData.name}}</label>
+      <div class="g-title title3 whiteBG overflow-ellipsis bio-text"> {{personData.bio}}</div>
+      <div class="g-title title3 whiteBG">
+        <label>{{projectList.length+contributedProjectsList.length}} projects</label>
+      </div>
+    </div>
+  </div>
+  <div class="expanded-popup-details">
+      <div class="my-row pets">
+          
+          <img *ngFor="let pet of pets" src='{{pet}}' class="mini-pet">
+      
+      </div>
+    <div class="my-row labels-container">
+      <div class="part">
+        <label class="g-title title2">Skills</label>
+        <div class="my-row labels-row">
+          <span *ngFor="let item of personData.skills_langs" class="g-chip programming">
+            {{item}}</span>
+        </div>
+        <div class="my-row labels-row">
+          <span *ngFor="let item of personData.skills_tags" class="g-chip knowledge">
+            {{item}}</span>
+        </div>
+      </div>
+      <div class="part">
+        <label class="g-title title2">Fields of interest</label>
+        <div class="my-row labels-row">
+          <span *ngFor="let item of personData.wants_to_learn_langs" class="g-chip programming">
+            {{item}}</span>
+        </div>
+        <div class="my-row labels-row">
+          <span *ngFor="let item of personData.wants_to_learn_tags" class="g-chip knowledge">
+            {{item}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="my-row" style="justify-content: space-between; padding: 10px;">
+      <label class="g-title title2">Developer In:</label>
+      <label class="g-title title2">{{projectList.length}} projects</label>
+    </div>
+    <div *ngIf="projectList.length>0" class="projects-container-limited-details my-row overflow-auto-scroll">
+      <app-project-min *ngFor="let project of projectList" [projectData]="project"></app-project-min>
+    </div>
+    <div class="my-row" style="justify-content: space-between; padding: 10px;">
+      <label class="g-title title2">contribute to:</label>
+      <label class="g-title title2">{{contributedProjectsList.length}} projects</label>
+    </div>
+    <div *ngIf="contributedProjectsList.length>0" class="projects-container-limited-details my-row overflow-auto-scroll">
+      <app-project-min *ngFor="let project of contributedProjectsList" [projectData]="project"></app-project-min>
+    </div>
+  </div>
+</div>

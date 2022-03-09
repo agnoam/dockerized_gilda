@@ -1,0 +1,90 @@
+@import '../../../../skill-pool';
+@import '../../../../../../sass/variables';
+.white-header {
+  padding-top: 30px;
+  .wrapper-img {
+    min-width: 116px;
+    width: 116px;
+    height: 116px;
+  }
+  a {
+    margin: 0 15px;
+  }
+}
+
+.add-star {
+  border: 1px solid $primary;
+  color: $primary;
+  display: inline-flex;
+  height: 30px;
+  line-height: 29px;
+  span {
+    padding: 0 10px;
+    display: inline-block;
+    height: 100%;
+    border-right: 1px solid $primary;
+  }
+  button {
+    color: $primary;
+    height: 100%;
+    i {
+      margin-right: 6px;
+    }
+    &:hover {
+      background-color: $primary;
+      color: white;
+    }
+  }
+}
+
+.progress {
+  background-color: transparent;
+  border-radius: 4px;
+  .progress-bar {
+    margin-right: 2px;
+    height: 10px;
+    padding: 0 4px;
+  }
+}
+
+.persons-images {
+  width: 50%;
+  padding-top: 0;
+  &:first-of-type {
+    border-right: 1px solid $gray;
+  }
+  .person-button {
+    margin: 5px 10px;
+  }
+}
+
+.images-row {
+  height: 64px;
+  overflow: hidden;
+  display: flex;
+}
+
+.continue {
+  font-size: 28px;
+  align-self: flex-end;
+}
+
+:host ::ng-deep .ui-carousel {
+  border: 0;
+  .ui-carousel-header {
+    background: transparent;
+    border: 0;
+  }
+  .ui-carousel-viewport .ui-carousel-items .ui-carousel-item {
+    padding: 5px;
+  }
+}
+.gig-item{
+  width: 100%;
+  .title2{
+    text-align: initial;
+  }
+}
+.description-readme {
+  max-height: 300px;
+}

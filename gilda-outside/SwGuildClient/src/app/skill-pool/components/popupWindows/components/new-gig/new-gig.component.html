@@ -1,0 +1,60 @@
+<div class="my-row" style="justify-content: space-between; padding: 10px; background-color: white">
+  <label class="g-title title2 whiteBG">Manage Gigs</label>
+  <button style="background-color: transparent;" (click)="closeWindow()">X</button>
+</div>
+<div class="wrapper">
+  <div class="my-row" style="justify-content: space-between">
+    <label class="g-title title2">Select Project</label>
+    <label class="g-title title3">{{projectList.length}} Projects</label>
+  </div>
+  <div *ngIf="projectList.length>0" class="projects-container-limited-details my-row overflow-auto-scroll" style="margin: 10px 0">
+    <app-project-min *ngFor="let project of projectList" [projectData]="project" [isOpenExpandedWindow]="false" (click)="chooseProject(project.project_id)"
+      [ngClass]="{selected:project.project_id == selectedProject.project_id}"></app-project-min>
+  </div>
+  <div class="my-row" style="justify-content: space-between">
+    <label class="g-title title2">Select Issue</label>
+    <label class="g-title title3">{{selectedProject?.issues?.length}} Issues</label>
+  </div>
+  <div class="issues-container overflow-auto-scroll" style="margin: 15px 0">
+    <button *ngFor="let issue of selectedProject?.issues" class="issue-item" (click)="selectIssue(issue)" [ngClass]="{selected:issue.id == selectedIssue.id}">
+      <div class="g-title title2" style="margin-bottom: 5px">{{issue.title}}</div>
+      <div class="g-title title3" style="overflow: hidden;">#{{issue.iid}}. opened at {{issue.created_at | date: 'dd.MM.y'}} by {{issue.author.name}}
+        <span class="g-chip other" *ngFor="let label of issue.labels">{{label}}</span>
+      </div>
+    </button>
+  </div>
+  <div class="my-row" style="justify-content: space-between">
+    <label class="g-title title2">Select Gig</label>
+    <label class="g-title title3">{{selectedProject?.gigs?.length}} Gigs</label>
+  </div>
+  <div class="issues-container overflow-auto-scroll" style="margin: 15px 0">
+    <button *ngFor="let gig of selectedProject?.gigs" class="issue-item" (click)="selectGig(gig)" [ngClass]="{selected:gig.id == selectedGig.id}">
+      <div class="g-title title2" style="margin-bottom: 5px">{{gig.title}}</div>
+      <div class="g-title title3" style="overflow: hidden;">#{{gig.iid}}. opened at {{gig.created_at | date: 'dd.MM.y'}} by {{gig.author.name}}
+        <span class="g-chip other" *ngFor="let label of gig.labels">{{label}}</span>
+      </div>
+    </button>
+  </div>
+  <div>Label</div>
+  <div class="labels-row">
+    <span *ngFor="let label of langLabelsList" class="g-chip programming">
+      {{label}}</span>
+  </div>
+  <div class="labels-row">
+    <span *ngFor="let label of tagLabelsList" class="g-chip knowledge">
+      {{label}}</span>
+  </div>
+  <div class="my-row" style="margin-top: 10px;">
+    <div class="my-col" style="margin-right: 30px;">
+      <label class="g-title title2" style="margin-bottom: 5px;"> Set Gig Level: </label>
+      <p-dropdown [options]="levelOption" placeholder="set a level" [(ngModel)]="selectedLevel"></p-dropdown>
+    </div>
+    <div class="my-col">
+      <label class="g-title title2" style="margin-bottom: 5px;">Set Gig Duration (hours):</label>
+      <input class="g-input" type="number" [(ngModel)]="durationTime" />
+    </div>
+  </div>
+  <div class="my-row" style="justify-content: space-between;margin-top: 20px;">
+    <button class="g-button" [disabled]="disableSetting" (click)="updateGig()">SAVE</button>
+    <button class="g-button" [disabled]="disableAdding" (click)="addGig()">CREATE GIG</button>
+  </div>

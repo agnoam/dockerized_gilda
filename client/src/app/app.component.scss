@@ -1,0 +1,45 @@
+@import '../sass/variables';
+.main-wrapper {
+  width: 100%;
+  height: calc(100% - #{$mainToolbarHeight});
+}
+
+.gilda-background-image {
+  height: calc(100% - #{$mainToolbarHeight});
+  width: 100%;
+  position: fixed; // top: 60px;
+  left: 0;
+  top: $mainToolbarHeight;
+  z-index: -1;
+}
+
+button.gilda-background-image {
+  z-index: 0;
+  padding: 0;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.page-card-container.card {
+  border: 2px solid white;
+  background-color: rgba(0, 0, 0, .2);
+  position: relative;
+  top: 5rem;
+}
+
+.page-card-container.card .island-img {
+  position: absolute;
+  z-index: 2;
+}
+
+.mat-tab-disabled.mat-tab-label {
+  background-color: rgba(17, 98, 155, 1);
+  font-size: 2rem;
+  border-right: 1px solid white;
+  padding: 1;
+  opacity: 1;
+  color: white;
+  min-width: 25rem;
+}

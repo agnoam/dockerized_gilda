@@ -1,0 +1,12 @@
+<ngu-carousel #mybanners class="banner" [inputs]="carouselConfig">
+    <ngu-item class="bannerStyle" NguCarouselItem *ngFor="let item of items; let i = index;">
+        <div class="tile">
+            <img src="{{item}}"/>
+        </div>
+    </ngu-item>
+    <button NguCarouselPrev class="arrow-btn leftRs">&lt;</button>
+    <button NguCarouselNext class="arrow-btn rightRs">&gt;</button>
+</ngu-carousel>
+<!-- <div style="width:100%; text-align: right; padding-top: 10px;" >
+    <button class="g-button" (click)="onClose()">GOT IT</button>
+</div> -->

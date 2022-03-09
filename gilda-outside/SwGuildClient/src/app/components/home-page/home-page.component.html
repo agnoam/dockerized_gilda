@@ -1,0 +1,66 @@
+<div class="home-container my-row  overflow-auto-scroll" fxLayout="col">
+  <div *ngFor="let island of islands">
+    <button [disableRipple]='true' class="island-card-button" mat-button (click)="navigate(island.route, island.rank)" [style.left]="island.left"
+      [style.top]="island.top" [style.width]="island.width">
+      <img *ngIf='(island.rank == ranks.length-1 || island.rank == currUserRank)' src="../assets/images/{{island.arraowImage}}"
+        [style.top]="island.arrowTop" [style.right]="island.arrowRight" style="width:13rem; position:absolute;" />
+
+      <div class="my-col island-card" [style.right]="island.cardRight" [style.top]="island.cardTop">
+        <div class="island-card-header">
+
+          <label *ngIf='island.rank != ranks.length-1'>LEVEL {{island.rank}}</label>
+          <label *ngIf='island.rank == ranks.length-1'>GILDA</label>
+        </div>
+        <div class="my-col island-card-content">
+          <label>
+            <span *ngIf='island.rank == ranks.length-1'>Next Meetup</span>
+          </label>
+          <label>
+            <span class="bigger-number">{{ranks[island.rank].score}}</span>
+            <span *ngIf='island.rank != ranks.length-1'>points</span>
+          </label>
+          <label style="margin-top:1rem;">Population:</label>
+          <label>
+            <span class="bigger-number">{{ranks[island.rank].habitants}}</span> {{island.habitants}}</label>
+        </div>
+      </div>
+      <div>
+
+        <img class="island-card-img" [style.animation-delay]="island.rank*3+'s'" src='../../assets/images/islands/{{ranks[island.rank].name}}-island.svg'>
+      </div>
+    </button>
+
+  </div>
+  <!-- <mat-grid-list cols="20" rowHeight="8rem">
+
+    <mat-grid-tile class="island-grid-card" *ngFor="let tile of tiles"
+                   [colspan]="tile.cols"
+                   [rowspan]="tile.rows"
+                   style="background-size: contain;"
+                   [style.background-color]="tile.color"
+                   [ngClass]="{
+                    'top-left-card': tile.rank == 2 ||  tile.rank == 1 || tile.rank == 5 || tile.rank > 5,
+                    'top-right-card':tile.rank == 3 || tile.rank == 0 || tile.rank == 4
+                   }"> -->
+  <!-- <p *ngIf="!tile.active">{{tile.text}}</p> -->
+  <!-- [style.background-color]="tile.color" -->
+  <!-- <div class="my-col island-card" *ngIf="tile.active">
+        <div class="island-card-header">
+          <label *ngIf='tile.rank != ranks.length-1'>LEVEL {{tile.rank}}</label>
+          <label *ngIf='tile.rank == ranks.length-1'>GILDA</label>
+        </div>
+        <div class="my-col island-card-content">
+            <label > <span  *ngIf='tile.rank == ranks.length-1'>next meetup</span></label>
+          <label ><span class="bigger-number" >{{ranks[tile.rank].score}}</span> <span  *ngIf='tile.rank != ranks.length-1'>points</span></label>
+          <label style="margin-top:1rem;">Population:</label>
+          <label><span class="bigger-number">{{ranks[tile.rank].habitants}}</span> {{tile.text}}</label>
+        </div>
+      </div>
+      <button [disableRipple]='true' class="island-card-button" mat-button *ngIf="tile.active" [routerLink]="[tile.route]"
+              (click)=setCurrRank(tile.rank)>
+        <div><img class="island-card-img" style="min-width:10rem;" src='../../assets/images/islands/{{ranks[tile.rank].name}}-island.png'></div>
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list> -->
+
+</div>

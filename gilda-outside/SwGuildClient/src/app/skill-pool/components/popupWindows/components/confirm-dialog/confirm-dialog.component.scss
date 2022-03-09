@@ -1,0 +1,22 @@
+$padding:20px;
+:host {
+  background-color: black;
+  border: 1px solid white;
+  display: inline-block;
+  padding-bottom: $padding;
+}
+
+.header {
+  padding: $padding;
+  border-bottom: 2px solid white;
+}
+
+.g-button {
+  min-width: 100px;
+  margin: 0 10px;
+}
+
+p {
+  padding: 0 $padding;
+  white-space: pre;
+}

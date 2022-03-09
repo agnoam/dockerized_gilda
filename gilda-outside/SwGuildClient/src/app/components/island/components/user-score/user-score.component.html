@@ -1,0 +1,68 @@
+<div class="my-row user-scors-container general"
+            [ngClass]="{'current-user': loggedInUser && loggedInUser.username == currUserDetails.username}"
+     *ngIf="currUserDetails && !isUserProfil">
+  <div class="my-col user-profil">
+    <a class="user-link" title="{{currUserDetails.name}} on Gitlab" target='_blank' href="{{currUserDetails.gitlab_url}}">
+      <img [ngClass]="{deactivated : currUserDetails.active == false}" src='{{currUserDetails?.avatar_url}}' alt="curr-user-avatar" style='border-radius:50%;'>
+    </a>
+    <button title='Once a day' (click)="recommendApplicant(currUserDetails.gitlab_user_id)"
+    mat-button
+    class="command-button"
+    *ngIf="currUserDetails.active && currUserDetails.rank=='APPLICANT' && this.currUserDetails.recommended_by==0"
+    [disabled]="!canBeRecommended || !loggedInUser || !loggedInUser.can_recommend"
+    >
+    RECOMMEND
+  </button>
+    <!-- <label *ngIf="!currUserDetails.active" class="recommended-by">NOT ACTIVE</label> -->
+    <label [ngClass]="{deactivated : currUserDetails.active == false}" *ngIf="this.currUserDetails && this.currUserDetails.recommended_by!=0" class="recommended-by">Recommended by</label>
+    <label [ngClass]="{deactivated : currUserDetails.active == false}" *ngIf="this.currUserDetails && this.currUserDetails.recommended_by!=0" class="recommended-by">{{recommendedBy?.name}}</label>
+
+  </div>
+  <div class="my-row user-scors-details">
+    <div [ngClass]="{deactivated : currUserDetails.active == false}" class="my-col badges">
+      <label class="personal-detail bold"> {{currUserDetails?.name}}</label>
+      <label class="personal-detail">total points: {{currUserDetails?.score}}</label>
+      <label *ngFor="let badge of badges">{{badge.val}} {{badge.badge}} </label>
+    </div>
+    <div class="my-col pets" [ngClass]="{deactivated : currUserDetails.active == false}">
+      <!-- <label>My pets:</label> -->
+      <div>
+        <img *ngFor="let pet of pets" src='{{pet}}'>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="my-row user-scors-container personal" *ngIf="isUserProfil">
+  <div class="my-col user-profil">
+    <a class="user-link" title="{{currUserDetails.name}} on Gitlab" target='_blank' href="{{currUserDetails.gitlab_url}}">
+    <img src='{{currUserDetails?.avatar_url}}' alt="curr-user-avatar" style='border-radius:50%;'>
+    </a>
+    <label class="personal-detail"> {{currUserDetails?.name}}</label>
+    <!-- <label class="personal-detail" *ngIf="this.currUserDetails && this.currUserDetails.recommended_by!=0" class="recommended-by">Recommended by</label>
+    <label class="personal-detail"*ngIf="this.currUserDetails && this.currUserDetails.recommended_by!=0" class="recommended-by">{{recommendedBy?.name}}</label> -->
+
+  </div>
+  <div class="my-col my-row user-scors-details">
+      <div class="list-header" style=" background-image: url('./assets/images/backgrounds/title_01_03.png');" (click)="displayScoreDetails(currUserDetails.score_detail)"> TOTAL POINTS: {{currUserDetails?.score}}</div>      
+    <div class="my-row badges">
+      <!-- <label class="interface-title">My trophies:</label> -->
+      <div title="{{badge.tooltip}}" class="my-row" style="align-items: flex-end; width: 16rem" *ngFor="let badge of badges">
+        <div style="position: relative;">
+
+        <div class='trophy-val'><label>{{badge.val}}</label></div>
+        <img class="trophy-img" src="../../../../../assets/images/trophy.svg">
+        </div>
+        <div class="my-col" style="width: 8rem;">
+
+        <label style="white-space: pre-wrap">{{badge.badge}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="my-row pets">
+      <!-- <label class="interface-title">My pets:</label> -->
+      <div class="my-row" style="justify-content: space-around;">
+        <img class="pet-img" *ngFor="let pet of pets" src='{{pet}}'>
+      </div>
+    </div>
+  </div>
+</div>

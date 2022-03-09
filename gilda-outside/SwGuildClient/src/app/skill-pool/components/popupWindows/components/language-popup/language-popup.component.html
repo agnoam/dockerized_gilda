@@ -1,0 +1,14 @@
+<div class="popup">
+  <button class="close-button" (click)="closeWindow()">X</button>
+  <div class="popup-content">
+    <div class="my-row language-item" style="align-items: center;" *ngFor="let key of objectKeys(languages)">
+      <div style="min-width: 120px;">
+        <span class="g-chip programming">{{key}}</span>
+      </div>
+      <div class="progress-bar" style="margin-right: 5px;">
+        <div class="progress" [style.width]="languages[key] + '%'"> </div>
+      </div>
+      <span class="progress-value">{{languages[key]}}%</span>
+    </div>
+  </div>
+</div>

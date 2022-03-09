@@ -1,0 +1,20 @@
+@import '../../skill-pool';
+.project-item {
+    background-color: white;
+    width: 180px;
+    height: $project-item-height;
+    padding: 1px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin: 5px;
+    text-align: start;
+    .wrapper-img {
+      min-width: calc(#{$project-item-height} - 2px);
+      width: calc(#{$project-item-height} - 2px);
+      height: calc(#{$project-item-height} - 2px);
+    }
+    .project-details {
+      width: 130px;
+      padding: 5px;
+    }
+  }
