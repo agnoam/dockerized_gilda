@@ -107,20 +107,20 @@ class App {
     this.express.use(cors(corsOptions))
     
     // TODO: Don't forget to uncoment the session middleware
-    // this.express.use(session(
-    // {              
-    //     secret: process.env.APPLICATION_SECRET,
-    //     store: store,
+    this.express.use(session(
+    {              
+        secret: process.env.APPLICATION_SECRET,
+        store: store,
         
-    //     resave: true,
-    //     saveUninitialized: true,
-    //     //cookie : {httpOnly: true}
+        resave: true,
+        saveUninitialized: true,
+        //cookie : {httpOnly: true}
 
-    //     // store: new FileStore(),   
-    //     //  resave: false,
-    //     //  saveUninitialized: true
-    // }
-    // ))
+        // store: new FileStore(),   
+        //  resave: false,
+        //  saveUninitialized: true
+    }
+    ))
 
     this.express.set('sessions-store', store)
    

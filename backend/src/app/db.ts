@@ -46,7 +46,7 @@ var model: IModel = {
     connection_string : MONGODB_CONNECTION}; //an instance of IModel
 
 
-let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION, {useMongoClient: true}); //, auth: {user: dbUsername, pass: dbPassword}});
+let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION); //, {useMongoClient: true} , auth: {user: dbUsername, pass: dbPassword}}); // v4
 
 
   

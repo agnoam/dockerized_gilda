@@ -23,23 +23,19 @@ export var userSchema: Schema = new Schema({
     wants_to_learn_langs :[String],
   bio : String,
   badges: {
-      gitlab_user: Boolean,
-      projects : [Number],
-      snippets : [Number],
-      pull_requests : [{project_id: Number, pull_req_id: Number}],
-      contributed_pull_requests : [{project_id: Number, pull_req_id: Number}],
-      members_recommended : [Number],
-      challenges_solved : [String],
-      challenges_published : [String],
-      projects_shared : [Number]
-      },
-      
-  approved_data_security_statement: Boolean,
-  approved_data_security_statement_date: Date,
-  
+    gitlab_user: Boolean,
+    projects : [Number],
+    snippets : [Number],
+    pull_requests : [{project_id: Number, pull_req_id: Number}],
+    contributed_pull_requests : [{project_id: Number, pull_req_id: Number}],
+    members_recommended : [Number],
+    challenges_solved : [String],
+    challenges_published : [String],
+    projects_shared : [Number]
   },
-  {usePushEach:true}
-  );
+  approved_data_security_statement: Boolean,
+  approved_data_security_statement_date: Date,  
+});
 
 userSchema.pre("save", function(next) {
   if (!this.createdAt) {
