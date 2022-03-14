@@ -6,7 +6,7 @@ import {GuildUsers} from './../guild-users';
 //import {AuthenticationAgent} from './../authentication'
 
 //import {getLogger} from 'log4js';
-require('dotenv').config()
+// require('dotenv').config()
 
 
 //const logger = getLogger();

@@ -96,7 +96,7 @@ export module ETCDConfig {
      * @param val The new value
      */
     const updateEnv = (propertyName: string, val: any) => {
-        if (_configs.configs.overrideSysObj) {
+        if (_configs.configs.overrideSysObj && process.env[propertyName] != val) {
             console.log('Update new key in process.env');
             process.env[propertyName] = val;
         }
@@ -159,8 +159,10 @@ export module ETCDConfig {
                     watchForChanges(etcdEntryName, propertyName);
             }
 
-            if (!val && _configs.configs?.genKeys) 
+            if (!val && _configs.configs?.genKeys) {
+                logger.info(`Writing new key to etcd because it's not exists`);
                 await client.put(etcdEntryName).value(process.env[propertyName]);
+            } 
         }
     }
 }
