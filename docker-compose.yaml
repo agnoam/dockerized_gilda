@@ -32,24 +32,26 @@ services:
   #   image: gilda-backend
   #   container_name: gilda-backend
     
-  server:
-    # image: gilda-server
-    build: backend/.
-    container_name: gilda-server
-    environment:
-      - ETCD_HOST=http://etcd:2379
-      - ETCD_SERVICE_NAME=gilda-server
-      - APPLICATION_SECRET=1234
-    ports:
-      - 3000:3000
-    depends_on:
-      - etcd
+  # server:
+  #   # image: gilda-server
+  #   build: backend/.
+  #   container_name: gilda-server
+  #   environment:
+  #     - ETCD_HOST=http://etcd:2379
+  #     - ETCD_SERVICE_NAME=gilda-server
+  #     - APPLICATION_SECRET=1234
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - etcd
 
 
   # TODO: work in progress
-  # gilda-client:
-  #   image: gilda-client
-  #   container_name: gilda-client
-  #   depends_on: 
-  #     - server
+  gilda-client:
+    build: client/.
+    container_name: gilda-client
+    ports:
+      - 8080:80
+    # depends_on:
+    #   - server
   
