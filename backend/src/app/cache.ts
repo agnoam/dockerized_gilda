@@ -1,4 +1,4 @@
-import model from './db';
+import { model } from './db';
 import {ICacheModel} from './models/cache'
 
 import { getLogger } from 'log4js';

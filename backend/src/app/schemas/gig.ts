@@ -7,5 +7,5 @@ export var gigSchema: Schema = new Schema({
     publisher : Number,
     level :Number,
     time_estimate : Number,
-    },{usePushEach:true});
+});
 

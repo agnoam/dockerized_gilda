@@ -20,47 +20,53 @@ import { projectSchema } from './schemas/project';
 import {labelSchema} from './schemas/label';
 import {gigSchema} from './schemas/gig';
 import { IGigModel } from './models/gig';
+import { getLogger } from 'log4js';
 
-require('dotenv').config()
+// require('dotenv').config()
 //import * as ip from 'ip';
-let dbServer = process.env.DB_SERVER || 'localhost';
-let dbPort = process.env.DB_PORT;
-let dbUsername = process.env.DB_USERNAME;
-let dbPassword = process.env.DB_PASSWORD; 
-let authString = '';
 
-if (dbUsername && dbPassword)
-    authString = `${dbUsername}:${dbPassword}@`;
+const logger = getLogger();
 
-const MONGODB_CONNECTION: string = `mongodb://${authString}${dbServer}:${dbPort}/Gilda?authSource=admin`;
+export let model: IModel;
+export module DbConfig {
+    let dbServer = process.env.DB_SERVER || 'localhost';
+    let dbPort = process.env.DB_PORT;
+    let dbUsername = process.env.DB_USERNAME;
+    let dbPassword = process.env.DB_PASSWORD; 
+    let authString = '';
+    export const MONGODB_CONNECTION: string = `mongodb://${authString}${dbServer}:${dbPort}/Gilda?authSource=admin`;
 
-var model: IModel = { 
-    user: null, 
-    challenge: null, 
-    meetup: null, 
-    monster: null, 
-    cache:null, 
-    project :null, 
-    label:null,
-    gig : null ,
-    connection_string : MONGODB_CONNECTION}; //an instance of IModel
+    export const initilize = () => {
+        if (dbUsername && dbPassword)
+            authString = `${dbUsername}:${dbPassword}@`;
+
+        model = { 
+            user: null, 
+            challenge: null, 
+            meetup: null, 
+            monster: null, 
+            cache:null, 
+            project :null, 
+            label:null,
+            gig : null ,
+            connection_string : MONGODB_CONNECTION
+        } //an instance of IModel
 
 
-let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION, {useMongoClient: true}); //, auth: {user: dbUsername, pass: dbPassword}});
+        let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION); //, {useMongoClient: true} , auth: {user: dbUsername, pass: dbPassword}}); // v4
 
+        model.user = connection.model<IUserModel>("User", userSchema);
+        model.challenge = connection.model<IChallengeModel>("Challenge", challengeSchema);
+        model.meetup = connection.model<IMeetupModel>("Meetup", meetupSchema);
+        model.monster = connection.model<IMonsterModel>("Monster", monsterSchema);
+        model.cache = connection.model<ICacheModel>("Cache", cacheSchema);  
+        model.project = connection.model<IProjectModel>("Project", projectSchema);
+        model.label = connection.model<ILabelModel>("Label", labelSchema);
+        model.gig = connection.model<IGigModel>("Gig", gigSchema);
 
-  
-model.user = connection.model<IUserModel>("User", userSchema);
-model.challenge = connection.model<IChallengeModel>("Challenge", challengeSchema);
-model.meetup = connection.model<IMeetupModel>("Meetup", meetupSchema);
-model.monster = connection.model<IMonsterModel>("Monster", monsterSchema);
-model.cache = connection.model<ICacheModel>("Cache", cacheSchema);  
-model.project = connection.model<IProjectModel>("Project", projectSchema);
-model.label = connection.model<ILabelModel>("Label", labelSchema);
-model.gig = connection.model<IGigModel>("Gig", gigSchema);
+        mongoose.Promise = Promise;
+        //model.reservation = connection.model<IResrvation>("Reservations", reservationSchema);   
 
-mongoose.Promise = Promise;
-//model.reservation = connection.model<IResrvation>("Reservations", reservationSchema);   
-
-export default model;
-
+        logger.info('Db models initialized');       
+    }
+}

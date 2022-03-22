@@ -1,4 +1,5 @@
 import { Etcd3, IKeyValue, IOptions as IETCDOptions, WatchBuilder, Watcher } from 'etcd3';
+import { getLogger } from 'log4js';
 // import dotenv from 'dotenv';
 // dotenv.config();
 
@@ -21,6 +22,7 @@ import { Etcd3, IKeyValue, IOptions as IETCDOptions, WatchBuilder, Watcher } fro
  * All parameters get a copy inside envParams object
  */
 export module ETCDConfig {
+    const logger = getLogger();
     export let client: Etcd3 = null;
     let _configs: IETCDConfigurations;
     let _etcdWatcher: WatchBuilder = null;
@@ -29,7 +31,7 @@ export module ETCDConfig {
     const defaultConfigs: IETCDConfigurations = {
         envParams: {},
         configs: {
-            dirname: process.env.ETCD_SERVICE_NAME
+            dirname: process.env.ETCD_SERVICE_NAME || 'default-service-name'
         }
     }
 
@@ -39,6 +41,7 @@ export module ETCDConfig {
      */
     const createClient = (connectionOptions?: IETCDOptions): void => {
         if (!client) {
+            logger.info('Creating client with parameters', connectionOptions);
             client = new Etcd3(connectionOptions);
             console.log('ETCD client has been created');
         }
@@ -56,6 +59,8 @@ export module ETCDConfig {
                 configs.configs.dirname = defaultConfigs.configs.dirname;
 
             _configs = { ...defaultConfigs, ...configs };
+            logger.info('Loaded etcd configs', _configs);
+
             createClient(connectionOptions);
             _etcdWatcher = client.watch();
 
@@ -91,7 +96,7 @@ export module ETCDConfig {
      * @param val The new value
      */
     const updateEnv = (propertyName: string, val: any) => {
-        if (_configs.configs.overrideSysObj) {
+        if (_configs.configs.overrideSysObj && process.env[propertyName] != val) {
             console.log('Update new key in process.env');
             process.env[propertyName] = val;
         }
@@ -111,16 +116,17 @@ export module ETCDConfig {
         
         _etcdWatcher.key(key).create().then((watcher: Watcher) => {
             watcher.on("put", (kv: IKeyValue, previous?: IKeyValue) => {
-                console.log('Updating the ')
+                console.log(`Updating the ${key} to:`, kv.value.toString());
                 updateEnv(propertyName, kv.value.toString());
             });
 
             watcher.on("delete", async (kv: IKeyValue, previous?: IKeyValue) => {
+                console.log(`Deleting param: ${propertyName} from envs`);
                 if (envParams)
-                    envParams[propertyName] = undefined;
+                    delete envParams[propertyName];
                 
                 if (_configs.configs?.overrideSysObj)
-                    process.env
+                    delete process.env[propertyName];
 
                 // In case the key deleted,
                 await watcher.cancel();
@@ -146,15 +152,17 @@ export module ETCDConfig {
                 process.env[propertyName] = process.env[propertyName] || val || propertySetting?.defaultValue || strDefaultVal;
                 console.log(`process.env[${propertyName}]:`, process.env[propertyName]);
 
-                // For memo
+                if (!envParams) envParams = {};
                 envParams[propertyName] = process.env[propertyName] || val || propertySetting?.defaultValue || strDefaultVal;
 
                 if (_configs.configs?.watchKeys)
                     watchForChanges(etcdEntryName, propertyName);
             }
 
-            if (!val && _configs.configs?.genKeys) 
+            if (!val && _configs.configs?.genKeys) {
+                logger.info(`Writing new key to etcd because it's not exists`);
                 await client.put(etcdEntryName).value(process.env[propertyName]);
+            } 
         }
     }
 }

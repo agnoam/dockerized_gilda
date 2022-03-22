@@ -47,6 +47,7 @@ import {
 } from '@angular/material';
 
 import {DataScrollerModule} from 'primeng/datascroller';
+import { InputTextModule } from 'primeng/inputtext';
 import {CarouselModule} from 'primeng/carousel';
 
 import 'hammerjs';
@@ -102,9 +103,8 @@ import { AvtamComponent } from './components/avtam/avtam.component';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-
     SkillPoolModule,
-
+    InputTextModule,
     // Material
     MatButtonModule,
     MatCardModule,
