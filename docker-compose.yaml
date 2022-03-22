@@ -13,37 +13,33 @@ services:
       - ETCD_INITIAL_ADVERTISE_PEER_URLS=http://0.0.0.0:2380
     volumes:
       - ./.volumes/etcd:/bitnami/etcd
-    ports:
+    # ports:
       # host_port:inter_container_port
-      - 5000:2379
-      - 5001:2380        
+      # - 5000:2379
+      # - 5001:2380        
 
   # Like etcd-viewer
   etcdkeeper:
     image: evildecay/etcdkeeper
     container_name: etcdkeeper
     environment:
-      - ETCD_PEER_ADDRESS=http://etcd:5000
+      - ETCD_PEER_ADDRESS=http://etcd:2379
       # - navigate to http://localhost:8080/etcdkeeper - and put host: etcd:2379 / etcd 2380
     ports:
       - 8080:8080
-
-  # gateway:
-  #   image: gilda-backend
-  #   container_name: gilda-backend
     
-  # server:
-  #   # image: gilda-server
-  #   build: backend/.
-  #   container_name: gilda-server
-  #   environment:
-  #     - ETCD_HOST=http://etcd:2379
-  #     - ETCD_SERVICE_NAME=gilda-server
-  #     - APPLICATION_SECRET=1234
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     - etcd
+  server:
+    # image: gilda-server
+    build: backend/.
+    container_name: gilda-server
+    environment:
+      - ETCD_HOST=http://etcd:2379
+      - ETCD_SERVICE_NAME=gilda-server
+      - APPLICATION_SECRET=1234
+    ports:
+      - 8000:3000
+    depends_on:
+      - etcd
 
 
   # TODO: work in progress
@@ -51,7 +47,15 @@ services:
     build: client/.
     container_name: gilda-client
     ports:
-      - 8080:80
+      - 5000:80
     # depends_on:
     #   - server
   
+  gateway:
+    build: gateway/.
+    container_name: gilda-gateway
+    ports:
+      - 3000:80
+    depends_on:
+      - server
+      - gilda-client
