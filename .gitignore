@@ -1,4 +1,8 @@
+.volumes/
+
 */node_modules/
 */logs/
 */dist/
 */outDir/
+
+*/.angular/
