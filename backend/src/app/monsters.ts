@@ -1,7 +1,7 @@
 import { GuildUsers } from './guild-users';
 import { IMonsterModel } from './models/monster';
 import { IUserModel } from './models/user';
-import model from './db';
+import { model } from './db';
 import { getLogger } from 'log4js';
 import {Action, IMonster} from './interfaces/IMonster';
 import {MarketPlace} from './marketplace'

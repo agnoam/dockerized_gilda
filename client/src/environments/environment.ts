@@ -6,9 +6,14 @@
 interface IEnv {
   production: boolean;
   apiUrl: string;
-  userServiceUrl?: string;
   oAuthProvider: string;
   clientID: string;
+  userServiceUrl?: string;
 }
 
-export const environment = {}
+export const environment: IEnv = {
+  production: false,
+  apiUrl: 'http://<some-domain>',
+  oAuthProvider: '',
+  clientID: ''
+}

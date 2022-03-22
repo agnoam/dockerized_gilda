@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM police-node
 
 WORKDIR /app/server
 COPY . .
@@ -7,4 +7,6 @@ RUN yarn
 RUN yarn build
 RUN yarn --production
 
-CMD ['yarn', 'start']
+RUN rm -rf ./src
+
+CMD ["yarn", "start"]

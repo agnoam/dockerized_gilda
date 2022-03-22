@@ -1,6 +1,6 @@
 import { IMeetup } from './interfaces/IMeetup';
 import { IMeetupModel } from './models/meetup';
-import model from './db';
+import { model } from './db';
 import { MailSender } from './mail';
 import {GuildUsers} from './guild-users';
 import { IUser } from './interfaces/IUser';

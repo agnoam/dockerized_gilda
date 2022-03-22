@@ -22,7 +22,7 @@ export class MatterMostAgent {
         
     private constructor() 
     {
-        require('dotenv').config()        
+        // require('dotenv').config()        
         this.apiUrl  = process.env.MATTERMOST_API_URL;
         this.private_token = process.env.MATTERMOST_PRIVATE_TOKEN  
             

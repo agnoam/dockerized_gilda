@@ -6,7 +6,6 @@ services:
     environment:
       - ALLOW_NONE_AUTHENTICATION=yes
       - ETCD_ENABLE_V2=true
-      # - ETCD_NAME=feature_toggle_etcd
       - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
       - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
       - ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2380
@@ -15,6 +14,7 @@ services:
     volumes:
       - ./.volumes/etcd:/bitnami/etcd
     ports:
+      # host_port:inter_container_port
       - 5000:2379
       - 5001:2380        
 
@@ -28,17 +28,30 @@ services:
     ports:
       - 8080:8080
 
-  gateway:
-    image: gilda-backend
-    container_name: gilda-backend
+  # gateway:
+  #   image: gilda-backend
+  #   container_name: gilda-backend
     
-  server:
-    image: gilda-server
-    container_name: gilda-server
+  # server:
+  #   # image: gilda-server
+  #   build: backend/.
+  #   container_name: gilda-server
+  #   environment:
+  #     - ETCD_HOST=http://etcd:2379
+  #     - ETCD_SERVICE_NAME=gilda-server
+  #     - APPLICATION_SECRET=1234
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - etcd
 
+
+  # TODO: work in progress
   gilda-client:
-    image: gilda-client
+    build: client/.
     container_name: gilda-client
-    depends_on: 
-      - server
+    ports:
+      - 8080:80
+    # depends_on:
+    #   - server
   
