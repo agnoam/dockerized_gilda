@@ -30,7 +30,7 @@ services:
     
   server:
     # image: gilda-server
-    build: backend/.
+    build: backend/
     container_name: gilda-server
     environment:
       - ETCD_HOST=http://etcd:2379
@@ -52,8 +52,13 @@ services:
     #   - server
   
   gateway:
-    build: gateway/.
     container_name: gilda-gateway
+    
+    # build: gateway/
+    image: bitnami/nginx:1.21.4-debian-10-r26
+    volumes:
+      - ./gateway/default.conf:/opt/bitnami/nginx/conf/server_blocks/gateway.conf
+
     ports:
       - 3000:80
     depends_on:

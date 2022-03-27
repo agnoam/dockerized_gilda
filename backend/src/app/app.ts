@@ -1,6 +1,6 @@
 import express = require( "express" );
-// import cors = require('cors')
-// import helmet = require('helmet')
+import cors = require('cors')
+import helmet = require('helmet')
 import { DbConfig } from './db';
 
 import { Application } from "express";
@@ -26,7 +26,7 @@ import { configure, getLogger } from 'log4js';
 import { isUserAuthenticated, isUserAdmin } from './middleware/authentication'
 //import * as uuid from 'uuid/v4';
 import * as session from 'express-session'
-let MongoDBStore = require('connect-mongodb-session')(session);
+// let MongoDBStore = require('connect-mongodb-session')(session);
 
 import { ETCDConfig } from './configs/etcd.config';
 
@@ -52,20 +52,6 @@ logger.level = "debug";
 export class ServerBoot {
     public express: Application;
     private store: any;
-    // private readonly corsOptions = {
-    //     origin : (requestOrigin: string, callback: (err: Error | null, allow?: boolean) => void) => {
-    //         logger.info('CORS received request from:', requestOrigin);
-    //         let whiteList=['http://gilda', 'http://gitlab', 'http://localhost']
-    //         for (let origin of whiteList) {
-    //             if (!requestOrigin || requestOrigin.startsWith(origin)) {
-    //                 callback(null, true)
-    //                 return
-    //             }
-    //         }               
-
-    //         callback(new Error('Origin not allowed'));
-    //     }
-    // }
 
     constructor () {
         GitLabAgent.getGitLabAgent().init();
@@ -74,72 +60,100 @@ export class ServerBoot {
     }
 
     public async initialize(): Promise<void> {
-        await this.loadConfigs();
-        this.loadMiddlewares();
-        this.loadRoutes();
+        try {
+            await this.loadConfigs();
+            this.loadMiddlewares();
+            this.loadRoutes();
+        } catch (ex) {
+            logger.error(`Initialization failed with ex: ${ex}`);
+        }
     }
 
     async loadConfigs(): Promise<void> {
-        logger.info('Loading configurations');
-        await ETCDConfig.initialize({ hosts: process.env.ETCD_HOST }, {
-            configs: {
-                genKeys: true,
-                overrideSysObj: true,
-                watchKeys: true
-            },
-            envParams: {
-                GITLAB_API_URL: '<api-url>',
-                GITLAB_PRIVATE_TOKEN: '<private-token>',
-                GUILD_ADMIN_USERS: '[admin1, admin2]',
-                PORT: '3000',
-                MAIL_SERVER: '',
-                SEND_EMAIL: '',
-                EMAIL_BCC: '',
-                DEBUG_MAIL_TO: '',
-                DB_SERVER: '',
-                DB_USERNAME: '',
-                DB_PASSWORD: '',
-                MATTERMOST_API_URL: '',
-                MATTERMOST_PRIVATE_TOKEN: '',
-                APPLICATION_ID: '',
-                APPLICATION_SECRET: '',
-                SERVER: '',
-                OAUTH_SERVER: ''
-            }
-        });
-        
-        DbConfig.initilize();
-        this.store = new MongoDBStore({
-            uri: DbConfig.MONGODB_CONNECTION,
-            collection: 'sessions'
-        });
+        try {
+            logger.info('Loading configurations');
+            await ETCDConfig.initialize({ hosts: process.env.ETCD_HOST }, {
+                configs: {
+                    genKeys: true,
+                    overrideSysObj: true,
+                    watchKeys: true
+                },
+                envParams: {
+                    ETCD_PUBLIC_DIR_PREFIX: 'gilda-client',
+                    GITLAB_API_URL: '<api-url>',
+                    GITLAB_PRIVATE_TOKEN: '<private-token>',
+                    GUILD_ADMIN_USERS: '[admin1, admin2]',
+                    PORT: '3000',
+                    MAIL_SERVER: '',
+                    SEND_EMAIL: '',
+                    EMAIL_BCC: '',
+                    DEBUG_MAIL_TO: '',
+                    DB_SERVER: '',
+                    DB_USERNAME: '',
+                    DB_PASSWORD: '',
+                    MATTERMOST_API_URL: '',
+                    MATTERMOST_PRIVATE_TOKEN: '',
+                    APPLICATION_ID: '',
+                    APPLICATION_SECRET: '',
+                    SERVER: '',
+                    OAUTH_SERVER: ''
+                }
+            });
+            
+            DbConfig.initilize();
+            // this.store = new MongoDBStore({
+            //     uri: DbConfig.MONGODB_CONNECTION,
+            //     collection: 'sessions'
+            // },
+            // (err: any) => {
+            //     logger.error('MongoDB session store error:', err);
+            //     this.store = new session.MemoryStore();
+            //     logger.info('Session store has been changed to MemoryStore due to MongoDB session store error');
+            // });
+        } catch (ex) {
+            logger.error(`Exception occured at loadConfigs(): ${ex}`);
+        }
     }
 
     loadMiddlewares(): void {
         logger.info('Loading middlewares handlers');
 
-        this.store.on('error', function(error: any) {
+        this.store?.on('error', (error: any) => {
             logger.error(error);
         });
             
-        this.express.use(bodyParser.urlencoded({
-            extended: false
-        }));
+        this.express.use(bodyParser.urlencoded({ extended: false }));
         this.express.use(bodyParser.json());
 
-        // this.express.use(helmet());
-        // this.express.use(cors(this.corsOptions));
-        // this.express.use(session({              
-        //     secret: process.env.APPLICATION_SECRET,
-        //     store: this.store,       
-        //     resave: true,
-        //     saveUninitialized: true
-        // }))
-        // this.express.set('sessions-store', this.store);
+        logger.info('Length of APPLICATION_SECRET:', `${process.env.APPLICATION_SECRET}`.length);
+        this.express.use(helmet());
+        this.express.use(cors({
+            origin : (requestOrigin: string, callback: (err: Error | null, allow?: boolean) => void) => {
+                let whiteList=['http://gilda', 'http://gitlab', 'http://localhost']
+                for (let origin of whiteList) {
+                    if (!requestOrigin || requestOrigin.startsWith(origin)) {
+                        logger.error('CORS continues');
+                        callback(null, true)
+                        return
+                    }
+                }               
+    
+                logger.error('CORS caught request from not allowed origin');
+                callback(new Error('Origin not allowed'));
+            }
+        }));
+
+        this.express.set('sessions-store', this.store);
+        this.express.use(session({
+            secret: process.env.APPLICATION_SECRET,
+            store: /* this.store */ new session.MemoryStore(),
+            resave: true,
+            saveUninitialized: true
+        }))
 
         // TODO: Remove this middleware
         this.express.use((req: Request, res: Response, next: NextFunction) => {
-            logger.info(`middleware accepted new request to: ${req.path}`);
+            logger.info(`Middleware accepted new request to: ${req.path}`);
             next();
         });
     }
@@ -156,7 +170,7 @@ export class ServerBoot {
         this.express.use('/monsters', [isUserAuthenticated(false)], monsters_router);
         this.express.use('/marketplace', [isUserAuthenticated(false)], initializeRoute());
         this.express.use('/env', get_env_router)
-        this.express.use('/', (req, res) => res.json({ test: 1234 }));
+        this.express.get('/', (req, res) => res.status(200).send('Server alive'));
         // this.express.use('/*', client_navigation_router);
     }
 }
