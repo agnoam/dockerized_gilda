@@ -1,4 +1,4 @@
-FROM police-node
+FROM node:slim
 
 WORKDIR /app/server
 COPY . .
