@@ -1,0 +1,11 @@
+FROM node:9 as builder
+
+WORKDIR /app/client
+# COPY . .
+
+# RUN npm i
+# RUN npm run build
+
+EXPOSE 4200
+
+CMD [ "npm", "run", "start" ]

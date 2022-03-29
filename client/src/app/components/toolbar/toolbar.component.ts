@@ -7,6 +7,8 @@ import { HelpPageComponent } from '../../components/help-page/help-page.componen
 import { FormatWidth } from '@angular/common';
 import { environment } from '../../../environments/environment.prod';
 import { AuthService } from '../../services/auth.service';
+import { EnvService } from '../../services/env.service';
+
 
 @Component({
   selector: 'app-toolbar',
@@ -19,7 +21,11 @@ export class ToolbarComponent implements OnInit {
   isLogedIn: boolean = false
   showStartHereArrow: boolean = false;
 
-  constructor(private authService : AuthService, private usersService: UsersService, private ranksService: RanksService, private router: RoutingService, private dialog: MatDialog) { }
+  constructor(
+    private authService : AuthService, private usersService: UsersService, 
+    private ranksService: RanksService, private router: RoutingService, private dialog: MatDialog, 
+    private envService: EnvService
+  ) { }
 
   ngOnInit() {
 
@@ -42,10 +48,11 @@ export class ToolbarComponent implements OnInit {
     
   // }
 
-  signIn()
-  {
+  signIn() {
+    this.envService.loadVariables();
     this.usersService.signIn()
   }
+  
   private checkIfIWasHere() {
     let numOfVisits: number = Number(localStorage.getItem('GildaWasHere'));
     if (!numOfVisits)
