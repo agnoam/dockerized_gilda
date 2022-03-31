@@ -1,21 +1,22 @@
-import {environment} from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 
+// import {environment} from './../../environments/environment';
+import { EnvService, IEnv } from './env.service';
+
 @Injectable()
 export class ChallengesService {
 
-  http: HttpClient = null;
-  url = environment.apiUrl + '/challenges'
+  environment: IEnv;
+  url: string;
   private _subject = new Subject<any>();
-  currUsername =''
+  currUsername = ''
 
-  constructor(private httpClient: HttpClient) {
-   
-    this.http = httpClient;
-
+  constructor(private http: HttpClient, private envService: EnvService) {
+    this.environment = envService.getEnvironment();
+    this.environment.apiUrl + '/challenges';
   }
 
   previewEvent(event) {

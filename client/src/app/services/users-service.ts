@@ -1,16 +1,19 @@
-import { Subject } from 'rxjs/Subject';
-import {environment} from './../../environments/environment';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+
+import { Subject } from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+// import {environment} from './../../environments/environment';
+import { IEnv, EnvService } from './env.service';
 
 @Injectable()
 export class UsersService {
 
+  environment: IEnv;
+  url: string;
 
-
-  url = environment.apiUrl + '/users'
   // DO NOT CHANGE THIS
   loggedUserName = undefined// for DEBUG in local host, use the code below
   loggedUserName$ = new BehaviorSubject<string>(this.loggedUserName)
@@ -20,7 +23,9 @@ export class UsersService {
   filteredUser$ : BehaviorSubject<string> = new BehaviorSubject(this.filteredUser)
   baseUrl = '/homepage'
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private envService: EnvService) {
+    this.environment = envService.getEnvironment();
+    this.url = this.environment.apiUrl + '/users';
 
     // USE THIS FOR DEBUG IN LOCALHOST
 
@@ -39,12 +44,12 @@ export class UsersService {
   signIn()
   {    
     this.baseUrl = window.location.pathname
-    let signInUrl = environment.oAuthProvider+
+    let signInUrl = this.environment.oAuthProvider+
     '/oauth/authorize?'  +  
     'client_id='+
-    environment.clientID+    
+    this.environment.clientID+    
     '&redirect_uri=' +
-    environment.apiUrl +
+    this.environment.apiUrl +
     '/oauth/redirect' +
     '&response_type=code' +
     '&state='+ this.baseUrl  

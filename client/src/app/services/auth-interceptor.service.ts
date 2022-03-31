@@ -1,9 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
-import {environment} from './../../environments/environment';
-import { EMPTY } from 'rxjs';
-
-
 import {
   HttpRequest,
   HttpHandler,
@@ -12,11 +7,21 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
+import { EMPTY } from 'rxjs';
+
+import { AuthService } from './auth.service';
+// import { EnvService, IEnv } from './env.service';
+// import {environment} from './../../environments/environment';
+
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(public auth: AuthService) {}
+  // environment: IEnv;
+
+  constructor(public auth: AuthService/*, private envService: EnvService*/) {
+    // this.environment = envService.getEnvironment();
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     

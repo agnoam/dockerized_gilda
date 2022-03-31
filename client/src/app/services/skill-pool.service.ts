@@ -1,11 +1,14 @@
-import { BehaviorSubject, Subject } from 'rxjs/internal/Rx';
 import { Injectable } from '@angular/core';
-
-import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { UsersService } from './../services/users-service';
 import { HttpHeaders } from '@angular/common/http';
+
+import { BehaviorSubject, Subject } from 'rxjs/internal/Rx';
 import { forkJoin } from "rxjs/observable/forkJoin";
+
+import { UsersService } from './../services/users-service';
+// import { environment } from './../../environments/environment';
+import { EnvService, IEnv } from './env.service';
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
@@ -17,9 +20,9 @@ const httpOptions = {
 })
 export class SkillPoolService {
 
+  environment: IEnv;
   curr_user_name = ''
-  url = environment.apiUrl + '/marketplace'
-  http: HttpClient = null;
+  url: string;
 
   selectedTab: number = 0;
   last_filter : string = ''
@@ -36,8 +39,10 @@ export class SkillPoolService {
   labelsSubject$: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
   tabChange$:BehaviorSubject<any> = new BehaviorSubject([]);
 
-  constructor(private httpClient: HttpClient, private usersService: UsersService) {
-    this.http = httpClient;
+  constructor(private http: HttpClient, private usersService: UsersService, private envService: EnvService) {
+    this.environment = envService.getEnvironment();
+    this.url = this.environment.apiUrl + '/marketplace';
+
     this.usersService.getCurrentUser$().subscribe(
       (username: string) => {
         this.curr_user_name = username;
