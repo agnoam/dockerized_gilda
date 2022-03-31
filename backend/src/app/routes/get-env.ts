@@ -6,9 +6,12 @@ import { getLogger } from "log4js";
 const logger = getLogger();
 const router: Router = Router();
 
-router.post('/get', async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+router.get('/get', async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     logger.info('Getting env');
-    const clientServicePath: string = req.body.etcdPath;
+    const clientServicePath: string = req.query.etcdPath.toString();
+
+    if (!clientServicePath) 
+        return res.status(400).json({ description: 'Cannot make this request without etcdPath param' });
 
     // Checking if this prefix is public (permitted to send)
     if (clientServicePath.toLocaleLowerCase() !== process.env.ETCD_PUBLIC_DIR_PREFIX.toLocaleLowerCase())

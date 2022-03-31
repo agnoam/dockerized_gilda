@@ -8,12 +8,14 @@ import {AvtamComponent} from "./components/avtam/avtam.component";
 import { UsersService } from './services/users-service';
 import { EnvService, IEnv } from './services/env.service';
 
+import { HttpClient } from '@angular/common/http';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
-
 })
 export class AppComponent {
 
@@ -28,7 +30,7 @@ export class AppComponent {
 
   constructor(
     iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private dialog: MatDialog, 
-    private usersService: UsersService, private envService: EnvService
+    private usersService: UsersService, private envService: EnvService, private http: HttpClient
   ) {
     // To avoid XSS attacks, the URL needs to be trusted from inside of your application.
     const avatarsSafeUrl = sanitizer.bypassSecurityTrustResourceUrl('./assets/avatars.svg');
@@ -50,7 +52,8 @@ export class AppComponent {
 
   isModalOpened = false;
   ngOnInit() {
-    this.envService.loadVariables();
+    this.envService.fetchVariables();
+    this.environment = this.envService.getEnvironment();
 
     this.usersService.getLoggedInUser$().subscribe((user : any) => {
       if (user && !this.isModalOpened) {
