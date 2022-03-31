@@ -74,6 +74,9 @@ import { LandingComponent } from './components/landing/landing.component'
 import { CookieService } from 'ngx-cookie-service';
 import { AvtamComponent } from './components/avtam/avtam.component';
 
+import { EnvService } from './services/env.service';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -148,7 +151,8 @@ import { AvtamComponent } from './components/avtam/avtam.component';
       useClass: AuthInterceptor,
       multi: true
     },
-    AuthService
+    AuthService,
+    EnvService
   ],
   entryComponents: [MonsterCardComponent, HelpPageComponent, MessagePopupComponent, AvtamComponent],
   bootstrap: [AppComponent],

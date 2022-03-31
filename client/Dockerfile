@@ -8,6 +8,8 @@ RUN npm run build
 
 RUN ls ./dist/
 
+CMD ["npm", "start"]
+
 FROM bitnami/nginx:1.21.4-debian-10-r26
 
 # Set working directory to nginx asset directory

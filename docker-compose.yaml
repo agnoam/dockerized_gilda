@@ -14,9 +14,9 @@ services:
     volumes:
       - ./.volumes/etcd:/bitnami/etcd
     # ports:
-      # host_port:inter_container_port
-      # - 5000:2379
-      # - 5001:2380        
+    #   # host_port:inter_container_port
+    #   - 5000:2379
+    #   - 5001:2380        
 
   # Like etcd-viewer
   etcdkeeper:
@@ -29,7 +29,7 @@ services:
       - 8080:8080
     
   server:
-    # image: gilda-server
+  #   # image: gilda-server
     build: backend/
     container_name: gilda-server
     environment:
@@ -48,9 +48,22 @@ services:
     container_name: gilda-client
     ports:
       - 5000:80
-    # depends_on:
-    #   - server
+    depends_on:
+      - server
   
+  # gilda-client-dev:
+  #   container_name: gilda-client-dev
+  #   build: 
+  #     dockerfile: Dockerfile.dev
+  #     context: ./client/
+  #   volumes:
+  #     - ./client/:/app/client
+  #     - /app/client/node_modules
+  #   ports:
+  #     - 4200:4200
+  #   depends_on:
+  #     - server
+
   gateway:
     container_name: gilda-gateway
     
