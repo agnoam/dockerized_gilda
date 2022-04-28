@@ -42,8 +42,7 @@ services:
       - etcd
 
 
-  # TODO: work in progress
-  gilda-client:
+  client:
     build: client/.
     container_name: gilda-client
     ports:
@@ -76,4 +75,4 @@ services:
       - 3000:80
     depends_on:
       - server
-      - gilda-client
+      - client
