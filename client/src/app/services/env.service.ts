@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import {environment} from './../../environments/environment';
+import { environment } from './../../environments/environment';
 
 @Injectable()
 export class EnvService { 
@@ -13,8 +13,10 @@ export class EnvService {
     }
 
     fetchVariables(): void {
-        console.log('Trying to retrive env variables', `http://localhost:8000/env/get`);
-        this.http.get<any>(`http://localhost:8000/env/get`, { 
+        const serverURL: string = `${environment.apiUrl}/api/env/get`;
+        
+        console.log('Trying to retrive env variables', serverURL);
+        this.http.get<any>(serverURL, {
             params: { etcdPath: "gilda-client" }
         }).subscribe((res: any) => {
             if (res) {
