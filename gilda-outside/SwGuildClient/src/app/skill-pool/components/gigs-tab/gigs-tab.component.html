@@ -1,8 +1,0 @@
-<p-dropdown class="dropdown-sort-data" [options]="sortableOption" [(ngModel)]="selectedSortableOption" (onChange)="sortList()"
-  placeholder="Sort by" [showClear]="true"></p-dropdown>
-<p-dataScroller [value]="gigs" [rows]="10" [inline]="true">
-  <ng-template let-gig pTemplate="item">
-    <app-gig-item [gigData]="gig"></app-gig-item>
-  </ng-template>
-</p-dataScroller>
-<button class="g-button" style=" float: right;  margin: 20px;" (click)="openNewGigDialog($event)">MANAGE GIGS</button>

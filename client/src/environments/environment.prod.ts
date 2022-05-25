@@ -6,4 +6,9 @@ interface ProdEnv {
   clientID: string;
 }
 
-export const environment = {};
+export const environment = {
+  production: true,
+  apiUrl: window['env']['API_URL'] || 'http://<some-domain>',
+  oAuthProvider: '',
+  clientID: ''
+}

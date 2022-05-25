@@ -2,7 +2,7 @@ import { IChallengeModel } from './models/challenge';
 import { IUser } from './interfaces/IUser';
 import { GitLabAgent } from './gitlab-agent';
 import { IUserModel } from './models/user';
-import model from './db';
+import { model } from './db';
 import { Subject} from 'rxjs/Subject';
 import { getLogger } from 'log4js';
 import { MailSender } from './mail';

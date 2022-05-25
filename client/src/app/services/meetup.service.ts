@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {environment} from './../../environments/environment';
 
+// import {environment} from './../../environments/environment';
+import { EnvService, IEnv } from './env.service';
 
 @Injectable()
 export class MeetupService {
 
-  url = environment.apiUrl + '/meetups'
+  environment: IEnv;
+  url: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private envService: EnvService) { 
+    this.environment = envService.getEnvironment();    
+    this.url = this.environment.apiUrl + '/meetups';
+  }
 
   register()
   {
-        
     return this.http.post(this.url,{})
   }
   unregister()

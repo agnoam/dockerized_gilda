@@ -1,0 +1,9 @@
+FROM node:9 as builder
+
+WORKDIR /app/client
+COPY package*.json ./
+
+RUN npm i
+
+EXPOSE 4200
+CMD ["npm", "start"]

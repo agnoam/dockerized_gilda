@@ -47,6 +47,7 @@ import {
 } from '@angular/material';
 
 import {DataScrollerModule} from 'primeng/datascroller';
+import { InputTextModule } from 'primeng/inputtext';
 import {CarouselModule} from 'primeng/carousel';
 
 import 'hammerjs';
@@ -72,6 +73,9 @@ import { SkillPoolModule} from './skill-pool/skill-pool.module';
 import { LandingComponent } from './components/landing/landing.component'
 import { CookieService } from 'ngx-cookie-service';
 import { AvtamComponent } from './components/avtam/avtam.component';
+
+import { EnvService } from './services/env.service';
+
 
 @NgModule({
   declarations: [
@@ -102,9 +106,8 @@ import { AvtamComponent } from './components/avtam/avtam.component';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-
     SkillPoolModule,
-
+    InputTextModule,
     // Material
     MatButtonModule,
     MatCardModule,
@@ -148,7 +151,8 @@ import { AvtamComponent } from './components/avtam/avtam.component';
       useClass: AuthInterceptor,
       multi: true
     },
-    AuthService
+    AuthService,
+    EnvService
   ],
   entryComponents: [MonsterCardComponent, HelpPageComponent, MessagePopupComponent, AvtamComponent],
   bootstrap: [AppComponent],

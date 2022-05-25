@@ -33,7 +33,7 @@ export class GitLabAgent {
         
     private constructor() 
     {
-        require('dotenv').config()        
+        // require('dotenv').config()        
         this.apiUrl  = process.env.GITLAB_API_URL;
         this.private_token = 'private_token=' + process.env.GITLAB_PRIVATE_TOKEN  
             

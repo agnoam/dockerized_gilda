@@ -1,3 +1,13 @@
+# Dev container
+In case you want to develop and you don't have an angular environment on your host, 
+you can use the 'dev-container'.
+
+Instructions:
+1. Uncomment the `gilda-client-dev` service in `docker-compsoe.yaml`
+2. Run `docker compose up` (or equvilant by docker desktop)
+3. Wait for the container to "compile" the angular project
+4. Access it by [this link](http://localhost:4200/)
+
 [![pipeline status]([path]/SwGuildClient/badges/master/pipeline.svg)]([path]/SwGuildClient/commits/master)
 
 # Gilda Web Client

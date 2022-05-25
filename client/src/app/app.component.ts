@@ -6,6 +6,9 @@ import 'rxjs/add/operator/filter';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {AvtamComponent} from "./components/avtam/avtam.component";
 import { UsersService } from './services/users-service';
+import { EnvService, IEnv } from './services/env.service';
+
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -13,11 +16,11 @@ import { UsersService } from './services/users-service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
-
 })
 export class AppComponent {
 
   selected: string = ''
+  environment: IEnv = null;
 
   navItems = [
     { name: 'SCORE BOARD', route: '/scoreboard' },
@@ -25,31 +28,34 @@ export class AppComponent {
     { name: 'ABOUT GILDA', route: '/about' }
   ]
 
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private dialog: MatDialog, private usersService: UsersService) {
+  constructor(
+    iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private dialog: MatDialog, 
+    private usersService: UsersService, private envService: EnvService, private http: HttpClient
+  ) {
     // To avoid XSS attacks, the URL needs to be trusted from inside of your application.
     const avatarsSafeUrl = sanitizer.bypassSecurityTrustResourceUrl('./assets/avatars.svg');
 
     iconRegistry.addSvgIconSetInNamespace('avatars', avatarsSafeUrl);
-    this.select(this.navItems[0].name)
+    this.select(this.navItems[0].name);
     //console.log(this.selected)
   }
 
   select(selected: string) {
-    this.selected = selected
+    this.selected = selected;
   }
 
   isSelected(nav: string) {
-    return nav == this.selected
+    return nav == this.selected;
   }
-  openAdminDialog() {
 
-
-  }
+  openAdminDialog() { }
 
   isModalOpened = false;
   ngOnInit() {
-    this.usersService.getLoggedInUser$().subscribe((user : any) =>
-    {
+    this.envService.fetchVariables();
+    this.environment = this.envService.getEnvironment();
+
+    this.usersService.getLoggedInUser$().subscribe((user : any) => {
       if (user && !this.isModalOpened) {
         console.log("user logged in");
           if (!user.approved_data_security_statement) {
@@ -57,10 +63,9 @@ export class AppComponent {
             this.openModal();
           }
       }
-    })
-
-    
+    });
   }
+
   openModal() {
     //this.isModalAvtam = true;
     return this.dialog.open(AvtamComponent, {
@@ -76,6 +81,4 @@ export class AppComponent {
       }
     });
   }
-
-
 }

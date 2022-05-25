@@ -9,9 +9,6 @@ import { ILabelModel } from './models/label';
 import { IGigModel } from './models/gig';
 import * as moment from 'moment';
 
-
-import model from './db';
-
 // //import {BehaviouSubject} from 'rxjs/BehaviorSubject'
 // import { Observable} from 'rxjs/Observable';
 // import 'rxjs/add/observable/fromPromise';
@@ -30,6 +27,8 @@ import { IUserModel } from './models/user';
 import { IUser } from './interfaces/IUser';
 import { IProjectModel } from './models/project';
 
+import { model } from './db';
+import { IModel } from './models/model';
 
 
 const logger = getLogger();
@@ -44,14 +43,16 @@ export class MarketPlace {
     guildUsers: GuildUsers = GuildUsers.getGuildUsers()
     //private discoverability_project_id: number = 379
     private static instance: MarketPlace
+    private model: IModel;
 
       
     private gigs_data: Array<any> = []
    
 
     private constructor() {
+        this.model = model;
         
-        require('dotenv').config()
+        // require('dotenv').config()
        
         // initalize gigs_data
         this.getAllProjects().then(projects=> 
@@ -129,7 +130,7 @@ export class MarketPlace {
                 // New project
                 else
                 {
-                    resolve(new model.project())
+                    resolve(new this.model.project())
                 }
             })
             
@@ -203,7 +204,7 @@ export class MarketPlace {
         for (let label of labels_to_delete)
         { 
            
-            promises.push(model.label.remove({ name : label.name})
+            promises.push(this.model.label.remove({ name : label.name})
             .then(()=>{})
             .catch(err=>logger.error(err)))
             //this.gitlabAgent.deleteLabel(this.discoverability_project_id, label)
@@ -212,7 +213,7 @@ export class MarketPlace {
     }
 
     getLabels() {        
-        let query = model.label.find({},).sort({count: -1})
+        let query = this.model.label.find({},).sort({count: -1})
         return query.exec();    
     }
     private getLangs(labels : Array<ILabel>) {
@@ -259,7 +260,7 @@ export class MarketPlace {
         {
             let query = { name : name };                         
 
-            model.label.findOne(query, (error:any, result :ILabelModel) =>
+            this.model.label.findOne(query, (error:any, result :ILabelModel) =>
             { 
                 if (!result) 
                 {  
@@ -269,7 +270,7 @@ export class MarketPlace {
                         description : description,
                         count : 0
                     }                         
-                    result = new model.label(new_label);                         
+                    result = new this.model.label(new_label);                         
                     result.save().then((label : ILabelModel) => resolve(label))
                 }
                 else
@@ -517,9 +518,10 @@ export class MarketPlace {
 
    
     private getAllGigs() {
-        let query = model.gig.find({})
+        let query = this.model.gig.find({})
         return query.exec();  
     }
+
     static getMarketPlaceService() {
         if (!MarketPlace.instance) MarketPlace.instance = new MarketPlace()
         return MarketPlace.instance
@@ -789,7 +791,7 @@ export class MarketPlace {
 
     private getAllProjects()
     {
-        let query = model.project.find({},)
+        let query = this.model.project.find({},)
         return  query.exec()
     }
     public getProjects(query: any) {
@@ -828,13 +830,13 @@ export class MarketPlace {
 
     private getProject(id: number)
     {
-        let query = model.project.findOne({project_id : id})
+        let query = this.model.project.findOne({project_id : id})
         return query.exec()
     }
 
     // private getGig(project_id: number, issue_id: number)
     // {
-    //     let query = model.gig.findOne({project_id : project_id, issue_id : issue_id})
+    //     let query = this.model.gig.findOne({project_id : project_id, issue_id : issue_id})
     //     return query.exec()
     // }
 
@@ -1031,7 +1033,7 @@ export class MarketPlace {
    
 
     private findGig(project_id: number, issue_id: number) {
-        return model.gig.findOne({ project_id: project_id, issue_id: issue_id }).exec();
+        return this.model.gig.findOne({ project_id: project_id, issue_id: issue_id }).exec();
     }
 
     private findGigIndex(project_id: number, issue_id: number)
@@ -1053,7 +1055,7 @@ export class MarketPlace {
                         reject('Gig already exists')
                     }
                     else {
-                        let new_gig = new model.gig()
+                        let new_gig = new this.model.gig()
                         new_gig.project_id = project_id
                         new_gig.issue_id = issue_id
                         new_gig.publisher = publisher_gitlab_user_id

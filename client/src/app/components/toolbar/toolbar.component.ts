@@ -5,8 +5,9 @@ import { RoutingService } from "../../services/routing.service";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
 import { HelpPageComponent } from '../../components/help-page/help-page.component'
 import { FormatWidth } from '@angular/common';
-import { environment } from '../../../environments/environment.prod';
+
 import { AuthService } from '../../services/auth.service';
+import { EnvService, IEnv } from './../../services/env.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -18,8 +19,14 @@ export class ToolbarComponent implements OnInit {
   currUserDetails: any
   isLogedIn: boolean = false
   showStartHereArrow: boolean = false;
+  environment: IEnv;
 
-  constructor(private authService : AuthService, private usersService: UsersService, private ranksService: RanksService, private router: RoutingService, private dialog: MatDialog) { }
+  constructor(
+    private authService : AuthService, private usersService: UsersService, private envService: EnvService,
+    private ranksService: RanksService, private router: RoutingService, private dialog: MatDialog
+  ) { 
+    this.environment = envService.getEnvironment();
+  }
 
   ngOnInit() {
 
@@ -42,10 +49,10 @@ export class ToolbarComponent implements OnInit {
     
   // }
 
-  signIn()
-  {
+  signIn() {
     this.usersService.signIn()
   }
+  
   private checkIfIWasHere() {
     let numOfVisits: number = Number(localStorage.getItem('GildaWasHere'));
     if (!numOfVisits)

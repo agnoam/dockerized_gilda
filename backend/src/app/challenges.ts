@@ -1,5 +1,5 @@
 import { IChallengeModel } from './models/challenge';
-import model from './db';
+import { model } from './db';
 import {GuildUsers} from './guild-users';
 import * as moment from 'moment';
 import { getLogger } from 'log4js';
