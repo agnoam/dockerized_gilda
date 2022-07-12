@@ -1,16 +1,13 @@
-import { meetupSchema } from './schemas/meetup';
-import { IMeetupModel } from './models/meetup';
-
 import mongoose = require("mongoose"); //import mongoose
 
+import { meetupSchema } from './schemas/meetup';
+import { IMeetupModel } from './models/meetup';
 import { IModel } from "./models/model"; //import IModel
 import { IUserModel } from "./models/user"; //import IUserModel
 import { userSchema } from "./schemas/user"; //import userSchema
-
 import { IChallengeModel } from "./models/challenge"; //import IChallengeModel
 import { challengeSchema } from "./schemas/challenge"; //import challengeSchema
 import {cacheSchema} from "./schemas/cache";
-
 import { IMonsterModel } from './models/monster';
 import { monsterSchema } from './schemas/monster'; 
 import { ICacheModel } from './models/cache';
@@ -34,11 +31,13 @@ export module DbConfig {
     let dbUsername = process.env.DB_USERNAME;
     let dbPassword = process.env.DB_PASSWORD; 
     let authString = '';
-    export const MONGODB_CONNECTION: string = `mongodb://${authString}${dbServer}:${dbPort}/Gilda?authSource=admin`;
+    export let MONGODB_CONNECTION: string;
 
     export const initilize = () => {
-        if (dbUsername && dbPassword)
+        if (dbUsername && dbPassword) {
             authString = `${dbUsername}:${dbPassword}@`;
+            MONGODB_CONNECTION = process.env.MONGODB_CONNECTION || `mongodb://${authString}${dbServer}:${dbPort}/Gilda?authSource=admin`;
+        }
 
         model = { 
             user: null, 
