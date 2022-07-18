@@ -40,7 +40,7 @@ export class AuthenticationAgent {
         `client_secret=${clientSecret}&`+
         `code=${requestToken}&`+
         `grant_type=authorization_code&` +
-        `redirect_uri=${process.env.SERVER}:${process.env.PORT}/oauth/redirect`,
+        `redirect_uri=${process.env.AUTH_REDIRECTION_URI}`,
         // Set the content type header, so that we get the response in JSOn
         headers: {
             accept: 'application/json',

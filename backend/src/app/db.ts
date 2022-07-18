@@ -31,12 +31,12 @@ export module DbConfig {
     let dbUsername = process.env.DB_USERNAME;
     let dbPassword = process.env.DB_PASSWORD; 
     let authString = '';
-    export let MONGODB_CONNECTION: string;
+    export let MONGODB_CONNECTION: string = process.env.MONGODB_CONNECTION;
 
     export const initilize = () => {
         if (dbUsername && dbPassword) {
             authString = `${dbUsername}:${dbPassword}@`;
-            MONGODB_CONNECTION = process.env.MONGODB_CONNECTION || `mongodb://${authString}${dbServer}:${dbPort}/Gilda?authSource=admin`;
+            MONGODB_CONNECTION = `mongodb://${authString}${dbServer}:${dbPort}/Gilda?authSource=admin`;
         }
 
         model = { 
@@ -52,6 +52,7 @@ export module DbConfig {
         } //an instance of IModel
 
 
+        console.log('MongoDB URL:', MONGODB_CONNECTION);
         let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION); //, {useMongoClient: true} , auth: {user: dbUsername, pass: dbPassword}}); // v4
 
         model.user = connection.model<IUserModel>("User", userSchema);

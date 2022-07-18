@@ -36,6 +36,9 @@ services:
       - ETCD_HOST=http://etcd:2379
       - ETCD_SERVICE_NAME=gilda-server
       - APPLICATION_SECRET=1234
+      - MONGODB_CONNECTION=mongodb://user:pass@localhost:5000/DB
+      - AUTH_REDIRECTION_URI=http://<host:port>/<path-to-server>/oauth/redirect
+      
     ports:
       - 8000:3000
     depends_on:
@@ -46,9 +49,10 @@ services:
     build: client/.
     container_name: gilda-client
     ports:
-      - 5000:80
-    # environment:
+      - 5000:8080
+    environment:
       # - API_URL=http://<wanted-server-url>
+      - API_URL=/api
     depends_on:
       - server
   
@@ -69,7 +73,7 @@ services:
     container_name: gilda-gateway
     
     # build: gateway/
-    image: bitnami/nginx:1.21.4-debian-10-r26
+    image: bitnami/nginx
     volumes:
       - ./gateway/default.conf:/opt/bitnami/nginx/conf/server_blocks/gateway.conf
 

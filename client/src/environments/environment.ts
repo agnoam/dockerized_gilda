@@ -13,7 +13,7 @@ interface IEnv {
 
 export const environment: IEnv = {
   production: false,
-  apiUrl: window['env']['API_URL'] || 'http://<some-domain>',
+  apiUrl: window['env']['API_URL'],
   oAuthProvider: '',
   clientID: ''
 }

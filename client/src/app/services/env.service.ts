@@ -13,7 +13,7 @@ export class EnvService {
     }
 
     fetchVariables(): void {
-        const serverURL: string = `${environment.apiUrl}/api/env/get`;
+        const serverURL: string = `${environment.apiUrl}/env/get`;
         
         console.log('Trying to retrive env variables', serverURL);
         this.http.get<any>(serverURL, {
