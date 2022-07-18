@@ -54,7 +54,6 @@ export class ServerBoot {
     private store: any;
 
     constructor () {
-        GitLabAgent.getGitLabAgent().init();
         this.express = express();
         this.initialize();
     }
@@ -91,6 +90,8 @@ export class ServerBoot {
                     DB_SERVER: '',
                     DB_USERNAME: '',
                     DB_PASSWORD: '',
+                    MONGODB_CONNECTION: '',
+                    ENABLE_CORS: 'false',
                     MATTERMOST_API_URL: '',
                     MATTERMOST_PRIVATE_TOKEN: '',
                     APPLICATION_ID: '',
@@ -101,6 +102,7 @@ export class ServerBoot {
             });
             
             DbConfig.initilize();
+            GitLabAgent.getGitLabAgent().init();
             // this.store = new MongoDBStore({
             //     uri: DbConfig.MONGODB_CONNECTION,
             //     collection: 'sessions'
@@ -127,21 +129,26 @@ export class ServerBoot {
 
         logger.info('Length of APPLICATION_SECRET:', `${process.env.APPLICATION_SECRET}`.length);
         this.express.use(helmet());
-        this.express.use(cors({
-            origin : (requestOrigin: string, callback: (err: Error | null, allow?: boolean) => void) => {
-                let whiteList=['http://gilda', 'http://gitlab', 'http://localhost']
-                for (let origin of whiteList) {
-                    if (!requestOrigin || requestOrigin.startsWith(origin)) {
-                        logger.error('CORS continues');
-                        callback(null, true)
-                        return
-                    }
-                }               
+        
+        if (process.env.ENABLE_CORS) {
+            this.express.use(cors({}));
+        }
+
+        // this.express.use(cors({
+            // origin : (requestOrigin: string, callback: (err: Error | null, allow?: boolean) => void) => {
+            //     let whiteList=['http://gilda', 'http://gitlab', 'http://localhost']
+            //     for (let origin of whiteList) {
+            //         if (!requestOrigin || requestOrigin.startsWith(origin)) {
+            //             logger.error('CORS continues');
+            //             callback(null, true)
+            //             return
+            //         }
+            //     }               
     
-                logger.error('CORS caught request from not allowed origin');
-                callback(new Error('Origin not allowed'));
-            }
-        }));
+            //     logger.error('CORS caught request from not allowed origin');
+            //     callback(new Error('Origin not allowed'));
+            // }
+        // }));
 
         this.express.set('sessions-store', this.store);
         this.express.use(session({
