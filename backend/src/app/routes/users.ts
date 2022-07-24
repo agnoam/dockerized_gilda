@@ -53,24 +53,18 @@ router.get(
         console.log("signedin");
         
         //let gla = new GitLabAgent();
-        if ((request.session as any).auth && (request.session as any).auth.user_id)
-        {
+        if ((request.session as any).auth && (request.session as any).auth.user_id) {
             console.log("request.session.auth", (request.session as any).auth);
             
             users.getUserByGitlabId((request.session as any).auth.user_id)
             //users.getSignedInUser(request.headers.authorization as string)
-            .then((res : any) => 
-            {
-                
+            .then((res : any) => {
                 response.json(res.username), (err:any)=> next(err)
             })      
-            .catch(err=> 
-                {
-                    response.status(403);
-                })   
-        }
-        else
-        {
+            .catch(err=> {
+                response.status(403);
+            })   
+        } else {
             response.status(401)
         }
               

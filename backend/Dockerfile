@@ -1,4 +1,4 @@
-FROM bitnami/node:16.15.1
+FROM node:16.15.1-slim
 
 WORKDIR /app/server
 

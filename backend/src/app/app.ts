@@ -26,7 +26,7 @@ import { configure, getLogger } from 'log4js';
 import { isUserAuthenticated, isUserAdmin } from './middleware/authentication'
 //import * as uuid from 'uuid/v4';
 import * as session from 'express-session'
-// let MongoDBStore = require('connect-mongodb-session')(session);
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 import { ETCDConfig } from './configs/etcd.config';
 
@@ -97,21 +97,22 @@ export class ServerBoot {
                     APPLICATION_ID: '',
                     APPLICATION_SECRET: '',
                     SERVER: '',
-                    OAUTH_SERVER: ''
+                    OAUTH_SERVER: '',
+                    AUTH_REDIRECTION_URI: ''
                 }
             });
             
             DbConfig.initilize();
             GitLabAgent.getGitLabAgent().init();
-            // this.store = new MongoDBStore({
-            //     uri: DbConfig.MONGODB_CONNECTION,
-            //     collection: 'sessions'
-            // },
-            // (err: any) => {
-            //     logger.error('MongoDB session store error:', err);
-            //     this.store = new session.MemoryStore();
-            //     logger.info('Session store has been changed to MemoryStore due to MongoDB session store error');
-            // });
+            this.store = new MongoDBStore({
+                uri: DbConfig.MONGODB_CONNECTION,
+                collection: 'sessions'
+            },
+            (err: any) => {
+                logger.error('MongoDB session store error:', err);
+                this.store = new session.MemoryStore();
+                logger.info('Session store has been changed to MemoryStore due to MongoDB session store error');
+            });
         } catch (ex) {
             logger.error(`Exception occured at loadConfigs(): ${ex}`);
         }
@@ -153,7 +154,7 @@ export class ServerBoot {
         this.express.set('sessions-store', this.store);
         this.express.use(session({
             secret: process.env.APPLICATION_SECRET,
-            store: /* this.store */ new session.MemoryStore(),
+            store: this.store, // new session.MemoryStore(),
             resave: true,
             saveUninitialized: true
         }))
